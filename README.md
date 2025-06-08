@@ -30,11 +30,13 @@ https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Comput
 * ARM Cortex A35 64-bit Dual Core at 1.5 GHz
 * 1 x 32-bit 4 GB LPDDR4 RAM memory at 1.2 GHz
 * 1 x HDMI
+* 3 x CAN channels
+* 1 x Sound channel
 * 4 x USB A
 * 1 x USB C
 * 1 x 8 GB eMMC
 * 1 x Gigabit Ethernet
-* 1 x PCI Express Generation 2
+* 1 x PCI Express Mini
 * 1 x Coin cell battery holder
 * Size: ? mm x ? mm
 * Thickness: 1.52 mm
