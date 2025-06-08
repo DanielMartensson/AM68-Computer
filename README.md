@@ -34,6 +34,7 @@ https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Comput
 * 4 x USB A
 * 2 x Microphones
 * 1 x USB C
+* 1 x I2C pins
 * 1 x 8 GB eMMC
 * 1 x Gigabit Ethernet
 * 1 x PCI Express Mini
