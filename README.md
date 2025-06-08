@@ -31,7 +31,6 @@ https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Comput
 * 1 x 32-bit 4 GB LPDDR4 RAM memory at 1.2 GHz
 * 1 x HDMI
 * 2 x CAN channels
-* 1 x Sound channel
 * 4 x USB A
 * 2 x Microphones
 * 1 x USB C
