@@ -10,13 +10,13 @@ Here a better processor and better RAM memory will be used.
 
 Here is `STM64-OS` system for the board.
 
-https://github.com/danielmartensson/STM64-OS
+https://github.com/danielmartensson/STM64-OS (Project not created yet at Github)
 
 # URL to the board
 
 Schematics and 3D model, made in Altium CircuitMaker.
 
-https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Computer
+https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Computer (Project not created yet at CircuitMaker.com)
 
 # Status
 
