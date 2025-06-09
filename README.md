@@ -30,11 +30,15 @@ https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Comput
 * ARM Cortex A35 64-bit Dual Core at 1.5 GHz
 * 1 x 32-bit 4 GB LPDDR4 RAM memory at 1.2 GHz
 * 1 x HDMI
-* 3 x CAN channels
-* 1 x Sound channel
+* 2 x CAN channels
 * 4 x USB A
+<<<<<<< HEAD
 * 1 x Camera Serial Interface
+=======
+* 2 x Microphones
+>>>>>>> 1fea55ae38f418c7e0dc0d7093924830c82c00dd
 * 1 x USB C
+* 1 x I2C pins
 * 1 x 8 GB eMMC
 * 1 x Gigabit Ethernet
 * 1 x PCI Express Mini
