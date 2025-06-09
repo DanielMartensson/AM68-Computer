@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+/*
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Author: STM32CubeMX code generation for STMicroelectronics.
+ */
+
+/* For more information on Device Tree configuration, please refer to
+ * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
+ */
+#include "stm32mp25-fw-config.dtsi"
+
+/ {
+	st-mem-firewall {
+		bl31_context: bl31-context@81fc0000 {
+			reg = <0x0 0x81fc0000 0x0 0x40000>;
+			st,protreg = <RISAFPROT(RISAF_REG_ID(7), 0, RIF_UNUSED, RIF_UNUSED, RIF_NSEC, RIF_ENC_DIS, RIF_BREN_EN)>;
+		};
+		op_tee: op-tee@82000000 {
+			reg = <0x0 0x82000000 0x0 0x2000000>;
+			st,protreg = <RISAFPROT(RISAF_REG_ID(8), 0, RIF_UNUSED, RIF_UNUSED, RIF_NSEC, RIF_ENC_DIS, RIF_BREN_EN)>;
+		};
+	};
+	/* USER CODE BEGIN root */
+	/* USER CODE END root */
+};
+

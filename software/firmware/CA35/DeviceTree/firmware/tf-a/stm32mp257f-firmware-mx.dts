@@ -1,0 +1,164 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+/*
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Author: STM32CubeMX code generation for STMicroelectronics.
+ */
+
+/* For more information on Device Tree configuration, please refer to
+ * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+#include <dt-bindings/clock/stm32mp25-clksrc.h>
+#include "stm32mp25-mx.dtsi"
+
+#include "stm32mp257.dtsi"
+#include "stm32mp25xf.dtsi"
+#include "stm32mp257f-firmware-mx-rcc.dtsi"
+#include "stm32mp25xxak-pinctrl.dtsi"
+#include "stm32mp25-ddr.dtsi"
+
+/* USER CODE BEGIN includes */
+/* USER CODE END includes */
+
+/ {
+	model = "STMicroelectronics custom STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	compatible = "st,stm32mp257f-firmware-mx", "st,stm32mp257";
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0x40000000>;
+
+		/* USER CODE BEGIN memory */
+		/* USER CODE END memory */
+	};
+
+	/* USER CODE BEGIN root */
+	/* USER CODE END root */
+
+}; /*root*/
+
+&pinctrl {
+	eth1_mdio_pins_mx: eth1_mdio_mx-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('A', 10, AF10)>; /* ETH1_MDIO */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+			st,io-clk-edge = <0>;
+			st,io-retime = <0>;
+			st,io-delay-path = <0>;
+			st,io-delay = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('A', 9, AF10)>; /* ETH1_MDC */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <2>;
+			st,io-clk-edge = <0>;
+			st,io-retime = <0>;
+			st,io-delay-path = <0>;
+			st,io-delay = <0>;
+		};
+	};
+
+	eth1_rgmii_pins_mx: eth1_rgmii_mx-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('A', 11, AF10)>, /* ETH1_RGMII_RX_CTL */
+					 <STM32_PINMUX('C', 2, AF10)>, /* ETH1_RGMII_RXD1 */
+					 <STM32_PINMUX('F', 1, AF10)>, /* ETH1_RGMII_RXD0 */
+					 <STM32_PINMUX('H', 12, AF10)>, /* ETH1_RGMII_RXD2 */
+					 <STM32_PINMUX('H', 13, AF10)>; /* ETH1_RGMII_RXD3 */
+			bias-disable;
+			drive-push-pull;
+			st,io-clk-edge = <1>;
+			st,io-retime = <1>;
+			st,io-delay-path = <0>;
+			st,io-delay = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('A', 13, AF10)>, /* ETH1_RGMII_TX_CTL */
+					 <STM32_PINMUX('A', 15, AF10)>, /* ETH1_RGMII_TXD0 */
+					 <STM32_PINMUX('C', 1, AF10)>, /* ETH1_RGMII_TXD1 */
+					 <STM32_PINMUX('H', 10, AF10)>, /* ETH1_RGMII_TXD2 */
+					 <STM32_PINMUX('H', 11, AF10)>; /* ETH1_RGMII_TXD3 */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <2>;
+			st,io-clk-edge = <1>;
+			st,io-retime = <1>;
+			st,io-delay-path = <0>;
+			st,io-delay = <0>;
+		};
+		pins3 {
+			pinmux = <STM32_PINMUX('A', 14, AF10)>; /* ETH1_RGMII_RX_CLK */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+			st,io-clk-edge = <0>;
+			st,io-retime = <0>;
+			st,io-delay-path = <0>;
+			st,io-delay = <0>;
+		};
+		pins4 {
+			pinmux = <STM32_PINMUX('C', 0, AF12)>; /* ETH1_RGMII_GTX_CLK */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <1>;
+			st,io-clk-edge = <0>;
+			st,io-retime = <0>;
+			st,io-delay-path = <0>;
+			st,io-delay = <0>;
+		};
+		pins5 {
+			pinmux = <STM32_PINMUX('H', 9, AF10)>; /* ETH1_RGMII_CLK125 */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <2>;
+		};
+	};
+
+	/* USER CODE BEGIN pinctrl */
+	/* USER CODE END pinctrl */
+};
+
+&pinctrl_z {
+	/* USER CODE BEGIN pinctrl_z */
+	/* USER CODE END pinctrl_z */
+};
+
+&bsec {
+	status = "okay";
+
+	/* USER CODE BEGIN bsec */
+	/* USER CODE END bsec */
+};
+
+&ddr {
+	status = "okay";
+
+	/* USER CODE BEGIN ddr */
+	/* USER CODE END ddr */
+};
+
+&eth1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&eth1_mdio_pins_mx>, <&eth1_rgmii_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN eth1 */
+	/* USER CODE END eth1 */
+};
+
+&rcc {
+	status = "okay";
+
+	/* USER CODE BEGIN rcc */
+	/* USER CODE END rcc */
+};
+
+/* USER CODE BEGIN addons */
+/* USER CODE END addons */
+

@@ -33,6 +33,7 @@ https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Comput
 * 3 x CAN channels
 * 1 x Sound channel
 * 4 x USB A
+* 1 x Camera Serial Interface
 * 1 x USB C
 * 1 x 8 GB eMMC
 * 1 x Gigabit Ethernet
