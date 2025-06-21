@@ -1,0 +1,62 @@
+Record=TopLevelDocument|FileName=01. TABLE OF CONTENTS.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=02. REVISION HISTORY.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=03.  SYSTEM BLOCK DGM.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=04.  SoC EVM PMIC PDN-0.6.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=05.  POWER FLOW DIAGRAM.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=06.  I2C TREE.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=07.  I2C TABLE.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=08. SOC GPIO_MAPPING_TABLE.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=09. SOC CSI & DSI IF.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=10. SOC SERDES0 IF.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=11. SOC SERDES1 IF.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=12. SOC EMIF0 & LPDDR4.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=13. SOC EMIF1 & LPDDR4.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=14. SOC EMIF2 & LPDDR4.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=15. SOC EMIF3 & LPDDR4.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=16. SOC MCU OSPI0 FLASH.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=17. SOC MCU & MAIN GEN IO, OSC.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=18. SOC GENERAL.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=19. SOC MCU RGMII & MMC & ADCs.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=20. SOC DEBUG.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=21. SOC USB2.0.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=22. SOC ANALOG POWER 1.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=23. SOC IO & SUPPORT POWER 2.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=24. SOC DIGITAL POWER 3.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=25. SOC GND & KELVIN SENSING.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=26. RESET BUTTONs.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=27. CPLD.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=28. BOARD ID & 40 Pin EXP Hdr.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=29. eMMC.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=30. MICRO SDCARD INTERFACE.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=31. USB HUB.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=32. USB 3.0 TYPE A CONN#1.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=33. USB 3.0 TYPE A CONN#2.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=34. USB TYPE C 3.0.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=35. PCIe_M.2_INTERFACE SSD.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=36. PCIe_M.2_INTERFACE SDIO.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=37. PCIe_INTERFACE 4L.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=38. MCU GB ETHERNET.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=39. CSI MUX.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=40. CSI2 CAMERA CONNECTOR.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=41. FPC Camera.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=42. DISPLAY PORT.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=43. HDMI BRIDGE.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=44. SGMII EXPANSION HDR.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=45. CAN TRANSCEIVERS.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=46. QUAD PORT CONSOLE.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=47. XDS110 DEBUGGER.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=48. TEST AUTOMATION HEADER.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=49. POWER INPUT.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=50. POWER SUPPLY #1.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=51. POWER SUPPLY #2.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=52. POWER SUPPLY #3.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=53. SOC CPU HCPS-A.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=54. SOC CORE HCPS-B.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=55. SOC PMIC.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=56. SOC LDOs & LD SWITCHES.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=57. EVM SOC CURRENT_SENSE_RES.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=58. CURRENT MONITORS.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=59. CURRENT MONITORS -INA231.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=60. SVS MONITOR.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=61. SERDES CLOCK GENERATORS.SchDoc|SheetNumber= 
+Record=NoMainPathDocument|SourceDocument=01. TABLE OF CONTENTS.SchDoc|FileName=62. SK NOTES, HW & LABELS.SchDoc|SheetNumber= 

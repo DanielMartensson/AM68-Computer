@@ -120,6 +120,16 @@
 		};
 	};
 
+	i2c2_pins_mx: i2c2_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 0, AF9)>, /* I2C2_SDA */
+					 <STM32_PINMUX('F', 2, AF9)>; /* I2C2_SCL */
+			bias-disable;
+			drive-open-drain;
+			slew-rate = <0>;
+		};
+	};
+
 	/* USER CODE BEGIN pinctrl */
 	/* USER CODE END pinctrl */
 };
@@ -152,11 +162,34 @@
 	/* USER CODE END eth1 */
 };
 
+&i2c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN i2c2 */
+	/* USER CODE END i2c2 */
+};
+
 &rcc {
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
 	/* USER CODE END rcc */
+};
+
+&usb2_phy1 {
+	status = "okay";
+
+	/* USER CODE BEGIN usb2_phy1 */
+	/* USER CODE END usb2_phy1 */
+};
+
+&usbh {
+	status = "okay";
+
+	/* USER CODE BEGIN usbh */
+	/* USER CODE END usbh */
 };
 
 /* USER CODE BEGIN addons */

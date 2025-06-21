@@ -81,6 +81,20 @@
 	/* USER CODE END rcc */
 };
 
+&usb2_phy1 {
+	status = "okay";
+
+	/* USER CODE BEGIN usb2_phy1 */
+	/* USER CODE END usb2_phy1 */
+};
+
+&usbh {
+	status = "okay";
+
+	/* USER CODE BEGIN usbh */
+	/* USER CODE END usbh */
+};
+
 /* USER CODE BEGIN addons */
 /* USER CODE END addons */
 

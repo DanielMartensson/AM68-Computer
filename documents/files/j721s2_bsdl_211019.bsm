@@ -1,0 +1,1701 @@
+-------------------------------------------------------------------------------
+--  TI j721s2 SOC with Boundary Scan rev 1.2 Oct 19 2021              --
+-------------------------------------------------------------------------------
+--  Supported Devices: j721s2 Revision 1.0                            --
+-------------------------------------------------------------------------------
+--  Created by    : Texas Instruments Incorporated                           --
+--  Documentation : j721s2 Users Guide                                --
+--  Note          : The DDR1 interface (ddr1_* signals) are only present.    --
+--                  on the TDA4VE SoC.  TDA4AL and VL should ignore those.   --
+--                  signals.                                                 --
+--  Rev History.  : 1.1   Jun 17 2021.   Initial release                     --
+--                  1.2   Oct 19 2021.   Typo fix ALF=>ALZ on Line 555.      --
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+--                                                                           --
+--                          IMPORTANT NOTICE                                 --
+--  Texas Instruments and its subsidiaries (TI) reserve the right to make    --
+--  changes to their products or to discontinue any product or service       --
+--  without notice, and advise customers to obtain the latest version of     --
+--  relevant information to verify, before placing orders, that information  --
+--  being relied on is current and complete. All products are sold subject   --
+--  to the terms and conditions of sale supplied at the time of order        --
+--  acknowledgment, including those pertaining to warranty, patent infringe- --
+--  ment, and limitation of liability.                                       --
+--                                                                           --
+--  TI warrants performance of its products to the specifications applicable --
+--  at the time of sale in accordance with TI's standard warranty. Testing   --
+--  and other quality control techniques are utilized to the extent TI deems --
+--  necessary to support this warranty. Specific testing of all parameters   --
+--  of each device is not necessarily performed, except those mandated by    --
+--  government requirements.                                                 --
+--                                                                           --
+--  Customers are responsible for their applications using TI components.    --
+--  In order to minimize risks associated with the customer's applications,  --
+--  adequate design and operating safeguards must be provided by the         --
+--  customer to minimize inherent or procedural hazards.                     --
+--                                                                           --
+--  TI assumes no liability for applications assistance or customer product  --
+--  design. TI does not warrant or represent that any license, either        --
+--  express or implied, is granted under any patent right, copyright, mask   --
+--  work right, or other intellectual property right of TI covering or       --
+--  relating to any combination, machine, or process in which such products  --
+--  or services might be or are used. TI's publication of information        --
+--  regarding any third party's products or services does not constitute     --
+--  TI's approval, license, warranty or endorsement thereof.                 --
+--                                                                           --
+--  Reproduction of information in TI data books or data sheets is           --
+--  permissible only if reproduction is without alteration and is            --
+--  accompanied by all associated warranties, conditions, limitations and    --
+--  notices.  Representation or reproduction of this information with        --
+--  alteration voids all warranties provided for an associated TI product or --
+--  service, is an unfair and deceptive business practice, and TI is not     --
+--  responsible nor liable for any such use.                                 --
+--                                                                           --
+--  Resale of TI's products or services with statements different from or    --
+--  beyond the parameters stated by TI for that product or service voids     --
+--  all express and any implied warranties for the associated TI product or  --
+--  service, is an unfair and deceptive business practice, and TI is not     --
+--  responsible nor liable for any such use.                                 --
+--                                                                           --
+--  Also see: Standard Terms and Conditions of Sale for Semiconductor        --
+--  Products. www.ti.com/sc/docs/stdterms.htm                                --
+--                                                                           --
+--  Mailing Address:                                                         --
+--                                                                           --
+--             Texas Instruments                                             --
+--             Post Office Box 655303                                        --
+--             Dallas, Texas 75265                                           --
+--                                                                           --
+--             Copyright © 2007, Texas Instruments Incorporated              --
+-------------------------------------------------------------------------------
+
+entity j721s2 is
+
+  generic(PHYSICAL_PIN_MAP : string := "ALZ");
+
+  port(
+    atest0               : linkage bit;
+    atest1               : linkage bit;
+    cap_vdds0            : linkage bit;
+    cap_vdds0_mcu        : linkage bit;
+    cap_vdds1_mcu        : linkage bit;
+    cap_vdds2            : linkage bit;
+    cap_vdds2_mcu        : linkage bit;
+    cap_vdds5            : linkage bit;
+    csi0_atb_0_h         : linkage bit;
+    csi0_atb_1_h         : linkage bit;
+    csi0_rxclkn          : in      bit;
+    csi0_rxclkp          : in      bit;
+    csi0_rxn0            : in      bit;
+    csi0_rxn1            : in      bit;
+    csi0_rxn2            : in      bit;
+    csi0_rxn3            : in      bit;
+    csi0_rxp0            : in      bit;
+    csi0_rxp1            : in      bit;
+    csi0_rxp2            : in      bit;
+    csi0_rxp3            : in      bit;
+    csi0_rxrcalib        : linkage bit;
+    csi1_atb_0_h         : linkage bit;
+    csi1_atb_1_h         : linkage bit;
+    csi1_rxclkn          : in      bit;
+    csi1_rxclkp          : in      bit;
+    csi1_rxn0            : in      bit;
+    csi1_rxn1            : in      bit;
+    csi1_rxn2            : in      bit;
+    csi1_rxn3            : in      bit;
+    csi1_rxp0            : in      bit;
+    csi1_rxp1            : in      bit;
+    csi1_rxp2            : in      bit;
+    csi1_rxp3            : in      bit;
+    csi1_rxrcalib        : linkage bit;
+    ddr0_atb0            : linkage bit;
+    ddr0_atb1            : linkage bit;
+    ddr0_ca0             : inout   bit;
+    ddr0_ca1             : inout   bit;
+    ddr0_ca2             : inout   bit;
+    ddr0_ca3             : inout   bit;
+    ddr0_ca4             : inout   bit;
+    ddr0_ca5             : inout   bit;
+    ddr0_cal0            : linkage bit;
+    ddr0_cke0            : inout   bit;
+    ddr0_cke1            : inout   bit;
+    ddr0_ckn             : inout   bit;
+    ddr0_ckp             : inout   bit;
+    ddr0_csn0_0          : inout   bit;
+    ddr0_csn0_1          : inout   bit;
+    ddr0_csn1_0          : inout   bit;
+    ddr0_csn1_1          : inout   bit;
+    ddr0_dm0             : inout   bit;
+    ddr0_dm1             : inout   bit;
+    ddr0_dm2             : inout   bit;
+    ddr0_dm3             : inout   bit;
+    ddr0_dq0             : inout   bit;
+    ddr0_dq1             : inout   bit;
+    ddr0_dq10            : inout   bit;
+    ddr0_dq11            : inout   bit;
+    ddr0_dq12            : inout   bit;
+    ddr0_dq13            : inout   bit;
+    ddr0_dq14            : inout   bit;
+    ddr0_dq15            : inout   bit;
+    ddr0_dq16            : inout   bit;
+    ddr0_dq17            : inout   bit;
+    ddr0_dq18            : inout   bit;
+    ddr0_dq19            : inout   bit;
+    ddr0_dq2             : inout   bit;
+    ddr0_dq20            : inout   bit;
+    ddr0_dq21            : inout   bit;
+    ddr0_dq22            : inout   bit;
+    ddr0_dq23            : inout   bit;
+    ddr0_dq24            : inout   bit;
+    ddr0_dq25            : inout   bit;
+    ddr0_dq26            : inout   bit;
+    ddr0_dq27            : inout   bit;
+    ddr0_dq28            : inout   bit;
+    ddr0_dq29            : inout   bit;
+    ddr0_dq3             : inout   bit;
+    ddr0_dq30            : inout   bit;
+    ddr0_dq31            : inout   bit;
+    ddr0_dq4             : inout   bit;
+    ddr0_dq5             : inout   bit;
+    ddr0_dq6             : inout   bit;
+    ddr0_dq7             : inout   bit;
+    ddr0_dq8             : inout   bit;
+    ddr0_dq9             : inout   bit;
+    ddr0_dqs0n           : inout   bit;
+    ddr0_dqs0p           : inout   bit;
+    ddr0_dqs1n           : inout   bit;
+    ddr0_dqs1p           : inout   bit;
+    ddr0_dqs2n           : inout   bit;
+    ddr0_dqs2p           : inout   bit;
+    ddr0_dqs3n           : inout   bit;
+    ddr0_dqs3p           : inout   bit;
+    ddr0_resetn          : inout   bit;
+    ddr0_ret             : in      bit;
+    ddr1_atb0            : linkage bit;
+    ddr1_atb1            : linkage bit;
+    ddr1_ca0             : inout   bit;
+    ddr1_ca1             : inout   bit;
+    ddr1_ca2             : inout   bit;
+    ddr1_ca3             : inout   bit;
+    ddr1_ca4             : inout   bit;
+    ddr1_ca5             : inout   bit;
+    ddr1_cal0            : linkage bit;
+    ddr1_cke0            : inout   bit;
+    ddr1_cke1            : inout   bit;
+    ddr1_ckn             : inout   bit;
+    ddr1_ckp             : inout   bit;
+    ddr1_csn0_0          : inout   bit;
+    ddr1_csn0_1          : inout   bit;
+    ddr1_csn1_0          : inout   bit;
+    ddr1_csn1_1          : inout   bit;
+    ddr1_dm0             : inout   bit;
+    ddr1_dm1             : inout   bit;
+    ddr1_dm2             : inout   bit;
+    ddr1_dm3             : inout   bit;
+    ddr1_dq0             : inout   bit;
+    ddr1_dq1             : inout   bit;
+    ddr1_dq10            : inout   bit;
+    ddr1_dq11            : inout   bit;
+    ddr1_dq12            : inout   bit;
+    ddr1_dq13            : inout   bit;
+    ddr1_dq14            : inout   bit;
+    ddr1_dq15            : inout   bit;
+    ddr1_dq16            : inout   bit;
+    ddr1_dq17            : inout   bit;
+    ddr1_dq18            : inout   bit;
+    ddr1_dq19            : inout   bit;
+    ddr1_dq2             : inout   bit;
+    ddr1_dq20            : inout   bit;
+    ddr1_dq21            : inout   bit;
+    ddr1_dq22            : inout   bit;
+    ddr1_dq23            : inout   bit;
+    ddr1_dq24            : inout   bit;
+    ddr1_dq25            : inout   bit;
+    ddr1_dq26            : inout   bit;
+    ddr1_dq27            : inout   bit;
+    ddr1_dq28            : inout   bit;
+    ddr1_dq29            : inout   bit;
+    ddr1_dq3             : inout   bit;
+    ddr1_dq30            : inout   bit;
+    ddr1_dq31            : inout   bit;
+    ddr1_dq4             : inout   bit;
+    ddr1_dq5             : inout   bit;
+    ddr1_dq6             : inout   bit;
+    ddr1_dq7             : inout   bit;
+    ddr1_dq8             : inout   bit;
+    ddr1_dq9             : inout   bit;
+    ddr1_dqs0n           : inout   bit;
+    ddr1_dqs0p           : inout   bit;
+    ddr1_dqs1n           : inout   bit;
+    ddr1_dqs1p           : inout   bit;
+    ddr1_dqs2n           : inout   bit;
+    ddr1_dqs2p           : inout   bit;
+    ddr1_dqs3n           : inout   bit;
+    ddr1_dqs3p           : inout   bit;
+    ddr1_resetn          : inout   bit;
+    ddr1_ret             : in      bit;
+    dp0_aux_atb_0        : linkage bit;
+    dp0_aux_atb_1        : linkage bit;
+    dp0_auxn             : in      bit;
+    dp0_auxp             : in      bit;
+    dsi0_atb_0_h         : linkage bit;
+    dsi0_atb_1_h         : linkage bit;
+    dsi0_txclkn          : out     bit;
+    dsi0_txclkp          : out     bit;
+    dsi0_txn0            : out     bit;
+    dsi0_txn1            : out     bit;
+    dsi0_txn2            : out     bit;
+    dsi0_txn3            : out     bit;
+    dsi0_txp0            : out     bit;
+    dsi0_txp1            : out     bit;
+    dsi0_txp2            : out     bit;
+    dsi0_txp3            : out     bit;
+    dsi0_txrcalib        : linkage bit;
+    dsi1_atb_0_h         : linkage bit;
+    dsi1_atb_1_h         : linkage bit;
+    dsi1_txclkn          : out     bit;
+    dsi1_txclkp          : out     bit;
+    dsi1_txn0            : out     bit;
+    dsi1_txn1            : out     bit;
+    dsi1_txn2            : out     bit;
+    dsi1_txn3            : out     bit;
+    dsi1_txp0            : out     bit;
+    dsi1_txp1            : out     bit;
+    dsi1_txp2            : out     bit;
+    dsi1_txp3            : out     bit;
+    dsi1_txrcalib        : linkage bit;
+    ecap0_in_apwm_out    : inout   bit;
+    emu0                 : in      bit;
+    emu1                 : in      bit;
+    ext_refclk1          : linkage bit;
+    extintn              : inout   bit;
+    gpio0_11             : inout   bit;
+    gpio0_12             : inout   bit;
+    i2c0_scl             : inout   bit;
+    i2c0_sda             : inout   bit;
+    iforce               : linkage bit;
+    main_atest           : linkage bit;
+    mcan0_rx             : inout   bit;
+    mcan0_tx             : inout   bit;
+    mcan12_rx            : inout   bit;
+    mcan12_tx            : inout   bit;
+    mcan13_rx            : inout   bit;
+    mcan13_tx            : inout   bit;
+    mcan14_rx            : inout   bit;
+    mcan14_tx            : inout   bit;
+    mcan15_rx            : inout   bit;
+    mcan15_tx            : inout   bit;
+    mcan16_rx            : inout   bit;
+    mcan16_tx            : inout   bit;
+    mcan1_rx             : inout   bit;
+    mcan1_tx             : inout   bit;
+    mcan2_rx             : inout   bit;
+    mcan2_tx             : inout   bit;
+    mcasp0_aclkx         : inout   bit;
+    mcasp0_afsx          : inout   bit;
+    mcasp0_axr0          : inout   bit;
+    mcasp0_axr1          : inout   bit;
+    mcasp0_axr10         : inout   bit;
+    mcasp0_axr11         : inout   bit;
+    mcasp0_axr12         : inout   bit;
+    mcasp0_axr13         : inout   bit;
+    mcasp0_axr14         : inout   bit;
+    mcasp0_axr15         : inout   bit;
+    mcasp0_axr2          : inout   bit;
+    mcasp0_axr3          : inout   bit;
+    mcasp0_axr4          : inout   bit;
+    mcasp0_axr5          : inout   bit;
+    mcasp0_axr6          : inout   bit;
+    mcasp0_axr7          : inout   bit;
+    mcasp0_axr8          : inout   bit;
+    mcasp0_axr9          : inout   bit;
+    mcasp1_aclkx         : inout   bit;
+    mcasp1_afsx          : inout   bit;
+    mcasp1_axr0          : inout   bit;
+    mcasp1_axr1          : inout   bit;
+    mcasp1_axr2          : inout   bit;
+    mcasp1_axr3          : inout   bit;
+    mcasp1_axr4          : inout   bit;
+    mcasp2_aclkx         : inout   bit;
+    mcasp2_afsx          : inout   bit;
+    mcasp2_axr0          : inout   bit;
+    mcasp2_axr1          : inout   bit;
+    mcu_adc0_ain0        : in      bit;
+    mcu_adc0_ain1        : in      bit;
+    mcu_adc0_ain2        : in      bit;
+    mcu_adc0_ain3        : in      bit;
+    mcu_adc0_ain4        : in      bit;
+    mcu_adc0_ain5        : in      bit;
+    mcu_adc0_ain6        : in      bit;
+    mcu_adc0_ain7        : in      bit;
+    mcu_adc1_ain0        : in      bit;
+    mcu_adc1_ain1        : in      bit;
+    mcu_adc1_ain2        : in      bit;
+    mcu_adc1_ain3        : in      bit;
+    mcu_adc1_ain4        : in      bit;
+    mcu_adc1_ain5        : in      bit;
+    mcu_adc1_ain6        : in      bit;
+    mcu_adc1_ain7        : in      bit;
+    mcu_i2c0_scl         : inout   bit;
+    mcu_i2c0_sda         : inout   bit;
+    mcu_mcan0_rx         : inout   bit;
+    mcu_mcan0_tx         : inout   bit;
+    mcu_mdio0_mdc        : inout   bit;
+    mcu_mdio0_mdio       : inout   bit;
+    mcu_ospi0_clk        : inout   bit;
+    mcu_ospi0_csn0       : inout   bit;
+    mcu_ospi0_csn1       : inout   bit;
+    mcu_ospi0_csn2       : inout   bit;
+    mcu_ospi0_csn3       : inout   bit;
+    mcu_ospi0_d0         : inout   bit;
+    mcu_ospi0_d1         : inout   bit;
+    mcu_ospi0_d2         : inout   bit;
+    mcu_ospi0_d3         : inout   bit;
+    mcu_ospi0_d4         : inout   bit;
+    mcu_ospi0_d5         : inout   bit;
+    mcu_ospi0_d6         : inout   bit;
+    mcu_ospi0_d7         : inout   bit;
+    mcu_ospi0_dqs        : inout   bit;
+    mcu_ospi0_lbclko     : inout   bit;
+    mcu_ospi1_clk        : inout   bit;
+    mcu_ospi1_csn0       : inout   bit;
+    mcu_ospi1_csn1       : inout   bit;
+    mcu_ospi1_d0         : inout   bit;
+    mcu_ospi1_d1         : inout   bit;
+    mcu_ospi1_d2         : inout   bit;
+    mcu_ospi1_d3         : inout   bit;
+    mcu_ospi1_dqs        : inout   bit;
+    mcu_ospi1_lbclko     : inout   bit;
+    mcu_porz             : in      bit;
+    mcu_resetstatz       : inout   bit;
+    mcu_resetz           : in      bit;
+    mcu_rgmii1_rd0       : inout   bit;
+    mcu_rgmii1_rd1       : inout   bit;
+    mcu_rgmii1_rd2       : inout   bit;
+    mcu_rgmii1_rd3       : inout   bit;
+    mcu_rgmii1_rx_ctl    : inout   bit;
+    mcu_rgmii1_rxc       : inout   bit;
+    mcu_rgmii1_td0       : inout   bit;
+    mcu_rgmii1_td1       : inout   bit;
+    mcu_rgmii1_td2       : inout   bit;
+    mcu_rgmii1_td3       : inout   bit;
+    mcu_rgmii1_tx_ctl    : inout   bit;
+    mcu_rgmii1_txc       : inout   bit;
+    mcu_safety_errorn    : inout   bit;
+    mcu_spi0_clk         : inout   bit;
+    mcu_spi0_cs0         : inout   bit;
+    mcu_spi0_d0          : inout   bit;
+    mcu_spi0_d1          : inout   bit;
+    mmc0_calpad          : linkage bit;
+    mmc0_clk             : out     bit;
+    mmc0_cmd             : inout   bit;
+    mmc0_dat0            : inout   bit;
+    mmc0_dat1            : inout   bit;
+    mmc0_dat2            : inout   bit;
+    mmc0_dat3            : inout   bit;
+    mmc0_dat4            : inout   bit;
+    mmc0_dat5            : inout   bit;
+    mmc0_dat6            : inout   bit;
+    mmc0_dat7            : inout   bit;
+    mmc0_ds              : in      bit;
+    mmc0_vctrl_tp        : linkage bit;
+    mmc1_clk             : inout   bit;
+    mmc1_cmd             : inout   bit;
+    mmc1_dat0            : inout   bit;
+    mmc1_dat1            : inout   bit;
+    mmc1_dat2            : inout   bit;
+    mmc1_dat3            : inout   bit;
+    osc1_xi              : linkage bit;
+    osc1_xo              : linkage bit;
+    pcie_refclk1_n_out   : linkage bit;
+    pcie_refclk1_p_out   : linkage bit;
+    pmic_power_en1       : inout   bit;
+    pmic_wake0           : inout   bit;
+    porz                 : in      bit;
+    reset_reqz           : in      bit;
+    resetstatz           : inout   bit;
+    serdes0_atb_0        : linkage bit;
+    serdes0_atb_1        : linkage bit;
+    serdes0_refclk_n     : linkage bit;
+    serdes0_refclk_p     : linkage bit;
+    serdes0_rext         : linkage bit;
+    serdes0_rx0_n        : in      bit;
+    serdes0_rx0_p        : in      bit;
+    serdes0_rx1_n        : in      bit;
+    serdes0_rx1_p        : in      bit;
+    serdes0_rx2_n        : in      bit;
+    serdes0_rx2_p        : in      bit;
+    serdes0_rx3_n        : in      bit;
+    serdes0_rx3_p        : in      bit;
+    serdes0_tx0_n        : out     bit;
+    serdes0_tx0_p        : out     bit;
+    serdes0_tx1_n        : out     bit;
+    serdes0_tx1_p        : out     bit;
+    serdes0_tx2_n        : out     bit;
+    serdes0_tx2_p        : out     bit;
+    serdes0_tx3_n        : out     bit;
+    serdes0_tx3_p        : out     bit;
+    soc_safety_errorn    : inout   bit;
+    spi0_clk             : inout   bit;
+    spi0_cs0             : inout   bit;
+    spi0_cs1             : inout   bit;
+    spi0_d0              : inout   bit;
+    spi0_d1              : inout   bit;
+    tck                  : in      bit;
+    tdi                  : in      bit;
+    tdo                  : out     bit;
+    temp_diode_p         : linkage bit;
+    timer_io0            : inout   bit;
+    timer_io1            : inout   bit;
+    tms                  : in      bit;
+    trstn                : in      bit;
+    usb0_dm              : linkage bit;
+    usb0_dp              : linkage bit;
+    usb0_id              : linkage bit;
+    usb0_rcalib          : linkage bit;
+    usb0_vbus            : linkage bit;
+    vdd_core             : linkage bit_vector(1 to 30);
+    vdd_cpu              : linkage bit_vector(1 to 20);
+    vdd_mcu              : linkage bit_vector(1 to 5);
+    vdd_mcu_wake1        : linkage bit;
+    vdd_wake0            : linkage bit;
+    vdda_0p8_csirx0_1    : linkage bit_vector(1 to 2);
+    vdda_0p8_dll_mmc0    : linkage bit;
+    vdda_0p8_dsitx       : linkage bit;
+    vdda_0p8_dsitx_c     : linkage bit;
+    vdda_0p8_pll_ddr0    : linkage bit;
+    vdda_0p8_pll_ddr1    : linkage bit;
+    vdda_0p8_serdes0_1   : linkage bit_vector(1 to 2);
+    vdda_0p8_serdes_c0_1 : linkage bit_vector(1 to 2);
+    vdda_0p8_usb         : linkage bit;
+    vdda_1p8_csirx0_1    : linkage bit_vector(1 to 2);
+    vdda_1p8_dsitx       : linkage bit_vector(1 to 2);
+    vdda_1p8_serdes0_1   : linkage bit;
+    vdda_1p8_serdes2_4   : linkage bit;
+    vdda_1p8_usb         : linkage bit;
+    vdda_3p3_usb         : linkage bit;
+    vdda_adc0            : linkage bit;
+    vdda_adc1            : linkage bit;
+    vdda_mcu_pllgrp0     : linkage bit;
+    vdda_mcu_temp        : linkage bit;
+    vdda_osc1            : linkage bit;
+    vdda_pllgrp0         : linkage bit;
+    vdda_pllgrp1         : linkage bit;
+    vdda_pllgrp10        : linkage bit;
+    vdda_pllgrp12        : linkage bit;
+    vdda_pllgrp13        : linkage bit;
+    vdda_pllgrp2         : linkage bit;
+    vdda_pllgrp5         : linkage bit;
+    vdda_pllgrp6         : linkage bit;
+    vdda_pllgrp7         : linkage bit;
+    vdda_pllgrp8         : linkage bit;
+    vdda_pllgrp9         : linkage bit;
+    vdda_por_wkup        : linkage bit;
+    vdda_temp0           : linkage bit;
+    vdda_temp1           : linkage bit;
+    vdda_temp2           : linkage bit;
+    vdda_temp3           : linkage bit;
+    vdda_temp4           : linkage bit;
+    vdda_wkup            : linkage bit;
+    vddar_core           : linkage bit_vector(1 to 4);
+    vddar_cpu            : linkage bit_vector(1 to 5);
+    vddar_mcu            : linkage bit_vector(1 to 2);
+    vdds_ddr             : linkage bit_vector(1 to 18);
+    vdds_ddr_c0          : linkage bit;
+    vdds_ddr_c1          : linkage bit;
+    vdds_mmc0            : linkage bit_vector(1 to 2);
+    vddshv0              : linkage bit_vector(1 to 3);
+    vddshv0_mcu          : linkage bit_vector(1 to 2);
+    vddshv1_mcu          : linkage bit_vector(1 to 2);
+    vddshv2              : linkage bit_vector(1 to 2);
+    vddshv2_mcu          : linkage bit_vector(1 to 2);
+    vddshv5              : linkage bit_vector(1 to 2);
+    vmon1_er_vsys        : linkage bit;
+    vmon2_ir_vcpu        : linkage bit;
+    vmon3_ir_vext1p8     : linkage bit;
+    vmon4_ir_vext1p8     : linkage bit;
+    vmon5_ir_vext3p3     : linkage bit;
+    vmon6_ir_vext1p8     : linkage bit;
+    vpp_core             : linkage bit;
+    vpp_mcu              : linkage bit;
+    vsense               : linkage bit;
+    vss                  : linkage bit_vector(1 to 208);
+    wkup_gpio0_0         : inout   bit;
+    wkup_gpio0_1         : inout   bit;
+    wkup_gpio0_10        : inout   bit;
+    wkup_gpio0_11        : inout   bit;
+    wkup_gpio0_12        : inout   bit;
+    wkup_gpio0_13        : inout   bit;
+    wkup_gpio0_14        : inout   bit;
+    wkup_gpio0_15        : inout   bit;
+    wkup_gpio0_2         : inout   bit;
+    wkup_gpio0_3         : inout   bit;
+    wkup_gpio0_4         : inout   bit;
+    wkup_gpio0_49        : inout   bit;
+    wkup_gpio0_5         : inout   bit;
+    wkup_gpio0_56        : inout   bit;
+    wkup_gpio0_57        : inout   bit;
+    wkup_gpio0_6         : inout   bit;
+    wkup_gpio0_66        : inout   bit;
+    wkup_gpio0_67        : inout   bit;
+    wkup_gpio0_7         : inout   bit;
+    wkup_gpio0_8         : inout   bit;
+    wkup_gpio0_9         : inout   bit;
+    wkup_i2c0_scl        : inout   bit;
+    wkup_i2c0_sda        : inout   bit;
+    wkup_osc0_xi         : linkage bit;
+    wkup_osc0_xo         : linkage bit;
+    wkup_uart0_rxd       : inout   bit;
+    wkup_uart0_txd       : inout   bit);
+
+  use STD_1149_1_2001.all;
+
+  attribute COMPONENT_CONFORMANCE of j721s2 : entity is "STD_1149_1_2001";
+
+
+  attribute      PIN_MAP          of j721s2 : entity is PHYSICAL_PIN_MAP;
+  constant ALZ : PIN_MAP_STRING :=
+    "atest0               : H25," & 
+    "atest1               : L26," & 
+    "cap_vdds0            : T21," & 
+    "cap_vdds0_mcu        : J20," & 
+    "cap_vdds1_mcu        : G16," & 
+    "cap_vdds2            : P21," & 
+    "cap_vdds2_mcu        : H17," & 
+    "cap_vdds5            : M22," & 
+    "csi0_atb_0_h         : AC20," & 
+    "csi0_atb_1_h         : AC19," & 
+    "csi0_rxclkn          : AH19," & 
+    "csi0_rxclkp          : AH20," & 
+    "csi0_rxn0            : AG18," & 
+    "csi0_rxn1            : AF19," & 
+    "csi0_rxn2            : AE18," & 
+    "csi0_rxn3            : AD19," & 
+    "csi0_rxp0            : AG19," & 
+    "csi0_rxp1            : AF20," & 
+    "csi0_rxp2            : AE19," & 
+    "csi0_rxp3            : AD20," & 
+    "csi0_rxrcalib        : AC18," & 
+    "csi1_atb_0_h         : AC23," & 
+    "csi1_atb_1_h         : AB22," & 
+    "csi1_rxclkn          : AH22," & 
+    "csi1_rxclkp          : AH23," & 
+    "csi1_rxn0            : AG21," & 
+    "csi1_rxn1            : AF22," & 
+    "csi1_rxn2            : AE21," & 
+    "csi1_rxn3            : AD22," & 
+    "csi1_rxp0            : AG22," & 
+    "csi1_rxp1            : AF23," & 
+    "csi1_rxp2            : AE22," & 
+    "csi1_rxp3            : AD23," & 
+    "csi1_rxrcalib        : AC21," & 
+    "ddr0_atb0            : T7," & 
+    "ddr0_atb1            : N8," & 
+    "ddr0_ca0             : P3," & 
+    "ddr0_ca1             : P5," & 
+    "ddr0_ca2             : N5," & 
+    "ddr0_ca3             : P2," & 
+    "ddr0_ca4             : P4," & 
+    "ddr0_ca5             : R3," & 
+    "ddr0_cal0            : R8," & 
+    "ddr0_cke0            : R2," & 
+    "ddr0_cke1            : R4," & 
+    "ddr0_ckn             : R1," & 
+    "ddr0_ckp             : P1," & 
+    "ddr0_csn0_0          : V5," & 
+    "ddr0_csn0_1          : W5," & 
+    "ddr0_csn1_0          : T5," & 
+    "ddr0_csn1_1          : U6," & 
+    "ddr0_dm0             : H5," & 
+    "ddr0_dm1             : M3," & 
+    "ddr0_dm2             : U4," & 
+    "ddr0_dm3             : AD1," & 
+    "ddr0_dq0             : F3," & 
+    "ddr0_dq1             : G4," & 
+    "ddr0_dq10            : K3," & 
+    "ddr0_dq11            : K1," & 
+    "ddr0_dq12            : N4," & 
+    "ddr0_dq13            : N2," & 
+    "ddr0_dq14            : L4," & 
+    "ddr0_dq15            : L2," & 
+    "ddr0_dq16            : T1," & 
+    "ddr0_dq17            : T3," & 
+    "ddr0_dq18            : V3," & 
+    "ddr0_dq19            : U2," & 
+    "ddr0_dq2             : F5," & 
+    "ddr0_dq20            : W2," & 
+    "ddr0_dq21            : W4," & 
+    "ddr0_dq22            : Y1," & 
+    "ddr0_dq23            : Y3," & 
+    "ddr0_dq24            : AB3," & 
+    "ddr0_dq25            : AA2," & 
+    "ddr0_dq26            : AA4," & 
+    "ddr0_dq27            : Y5," & 
+    "ddr0_dq28            : AC2," & 
+    "ddr0_dq29            : AB5," & 
+    "ddr0_dq3             : F1," & 
+    "ddr0_dq30            : AD2," & 
+    "ddr0_dq31            : AC4," & 
+    "ddr0_dq4             : J4," & 
+    "ddr0_dq5             : H3," & 
+    "ddr0_dq6             : J2," & 
+    "ddr0_dq7             : G2," & 
+    "ddr0_dq8             : K5," & 
+    "ddr0_dq9             : M5," & 
+    "ddr0_dqs0n           : H1," & 
+    "ddr0_dqs0p           : G1," & 
+    "ddr0_dqs1n           : M1," & 
+    "ddr0_dqs1p           : L1," & 
+    "ddr0_dqs2n           : U1," & 
+    "ddr0_dqs2p           : V1," & 
+    "ddr0_dqs3n           : AC1," & 
+    "ddr0_dqs3p           : AB1," & 
+    "ddr0_resetn          : R5," & 
+    "ddr0_ret             : T8," & 
+    "ddr1_atb0            : F13," & 
+    "ddr1_atb1            : G11," & 
+    "ddr1_ca0             : C10," & 
+    "ddr1_ca1             : E10," & 
+    "ddr1_ca2             : E9," & 
+    "ddr1_ca3             : B10," & 
+    "ddr1_ca4             : D10," & 
+    "ddr1_ca5             : C9," & 
+    "ddr1_cal0            : E8," & 
+    "ddr1_cke0            : B9," & 
+    "ddr1_cke1            : D9," & 
+    "ddr1_ckn             : A9," & 
+    "ddr1_ckp             : A10," & 
+    "ddr1_csn0_0          : F9," & 
+    "ddr1_csn0_1          : F8," & 
+    "ddr1_csn1_0          : F11," & 
+    "ddr1_csn1_1          : F10," & 
+    "ddr1_dm0             : D16," & 
+    "ddr1_dm1             : E13," & 
+    "ddr1_dm2             : F7," & 
+    "ddr1_dm3             : B3," & 
+    "ddr1_dq0             : B18," & 
+    "ddr1_dq1             : E17," & 
+    "ddr1_dq10            : C13," & 
+    "ddr1_dq11            : C11," & 
+    "ddr1_dq12            : E11," & 
+    "ddr1_dq13            : A11," & 
+    "ddr1_dq14            : B12," & 
+    "ddr1_dq15            : D12," & 
+    "ddr1_dq16            : B7," & 
+    "ddr1_dq17            : D7," & 
+    "ddr1_dq18            : C8," & 
+    "ddr1_dq19            : A8," & 
+    "ddr1_dq2             : D18," & 
+    "ddr1_dq20            : C6," & 
+    "ddr1_dq21            : E6," & 
+    "ddr1_dq22            : B5," & 
+    "ddr1_dq23            : D5," & 
+    "ddr1_dq24            : B1," & 
+    "ddr1_dq25            : A4," & 
+    "ddr1_dq26            : C4," & 
+    "ddr1_dq27            : E4," & 
+    "ddr1_dq28            : D1," & 
+    "ddr1_dq29            : D3," & 
+    "ddr1_dq3             : A17," & 
+    "ddr1_dq30            : C2," & 
+    "ddr1_dq31            : E2," & 
+    "ddr1_dq4             : E15," & 
+    "ddr1_dq5             : B16," & 
+    "ddr1_dq6             : C15," & 
+    "ddr1_dq7             : C17," & 
+    "ddr1_dq8             : B14," & 
+    "ddr1_dq9             : D14," & 
+    "ddr1_dqs0n           : A15," & 
+    "ddr1_dqs0p           : A16," & 
+    "ddr1_dqs1n           : A12," & 
+    "ddr1_dqs1p           : A13," & 
+    "ddr1_dqs2n           : A7," & 
+    "ddr1_dqs2p           : A6," & 
+    "ddr1_dqs3n           : A2," & 
+    "ddr1_dqs3p           : A3," & 
+    "ddr1_resetn          : F12," & 
+    "ddr1_ret             : J10," & 
+    "dp0_aux_atb_0        : AE11," & 
+    "dp0_aux_atb_1        : AD12," & 
+    "dp0_auxn             : AG11," & 
+    "dp0_auxp             : AF11," & 
+    "dsi0_atb_0_h         : AC12," & 
+    "dsi0_atb_1_h         : AC14," & 
+    "dsi0_txclkn          : AH13," & 
+    "dsi0_txclkp          : AH14," & 
+    "dsi0_txn0            : AG12," & 
+    "dsi0_txn1            : AF13," & 
+    "dsi0_txn2            : AE12," & 
+    "dsi0_txn3            : AD13," & 
+    "dsi0_txp0            : AG13," & 
+    "dsi0_txp1            : AF14," & 
+    "dsi0_txp2            : AE13," & 
+    "dsi0_txp3            : AD14," & 
+    "dsi0_txrcalib        : AC13," & 
+    "dsi1_atb_0_h         : AC17," & 
+    "dsi1_atb_1_h         : AC16," & 
+    "dsi1_txclkn          : AH16," & 
+    "dsi1_txclkp          : AH17," & 
+    "dsi1_txn0            : AG15," & 
+    "dsi1_txn1            : AF16," & 
+    "dsi1_txn2            : AE15," & 
+    "dsi1_txn3            : AD16," & 
+    "dsi1_txp0            : AG16," & 
+    "dsi1_txp1            : AF17," & 
+    "dsi1_txp2            : AE16," & 
+    "dsi1_txp3            : AD17," & 
+    "dsi1_txrcalib        : AC15," & 
+    "ecap0_in_apwm_out    : AB26," & 
+    "emu0                 : A27," & 
+    "emu1                 : C26," & 
+    "ext_refclk1          : AD28," & 
+    "extintn              : AG24," & 
+    "gpio0_11             : V23," & 
+    "gpio0_12             : T26," & 
+    "i2c0_scl             : AH25," & 
+    "i2c0_sda             : AE24," & 
+    "iforce               : N28," & 
+    "main_atest           : L23," & 
+    "mcan0_rx             : U28," & 
+    "mcan0_tx             : W28," & 
+    "mcan12_rx            : AC24," & 
+    "mcan12_tx            : W25," & 
+    "mcan13_rx            : AF28," & 
+    "mcan13_tx            : AE28," & 
+    "mcan14_rx            : W23," & 
+    "mcan14_tx            : AD25," & 
+    "mcan15_rx            : AA23," & 
+    "mcan15_tx            : Y24," & 
+    "mcan16_rx            : AB24," & 
+    "mcan16_tx            : Y28," & 
+    "mcan1_rx             : R27," & 
+    "mcan1_tx             : V26," & 
+    "mcan2_rx             : Y25," & 
+    "mcan2_tx             : R28," & 
+    "mcasp0_aclkx         : AB28," & 
+    "mcasp0_afsx          : U27," & 
+    "mcasp0_axr0          : AC28," & 
+    "mcasp0_axr1          : Y26," & 
+    "mcasp0_axr10         : V25," & 
+    "mcasp0_axr11         : T24," & 
+    "mcasp0_axr12         : AB25," & 
+    "mcasp0_axr13         : T23," & 
+    "mcasp0_axr14         : U24," & 
+    "mcasp0_axr15         : AC25," & 
+    "mcasp0_axr2          : AB27," & 
+    "mcasp0_axr3          : T27," & 
+    "mcasp0_axr4          : U26," & 
+    "mcasp0_axr5          : AA28," & 
+    "mcasp0_axr6          : AD27," & 
+    "mcasp0_axr7          : T25," & 
+    "mcasp0_axr8          : W24," & 
+    "mcasp0_axr9          : AA25," & 
+    "mcasp1_aclkx         : AA24," & 
+    "mcasp1_afsx          : V28," & 
+    "mcasp1_axr0          : T28," & 
+    "mcasp1_axr1          : V27," & 
+    "mcasp1_axr2          : W27," & 
+    "mcasp1_axr3          : AD26," & 
+    "mcasp1_axr4          : U25," & 
+    "mcasp2_aclkx         : Y27," & 
+    "mcasp2_afsx          : AA27," & 
+    "mcasp2_axr0          : AA26," & 
+    "mcasp2_axr1          : AC27," & 
+    "mcu_adc0_ain0        : L25," & 
+    "mcu_adc0_ain1        : K25," & 
+    "mcu_adc0_ain2        : M24," & 
+    "mcu_adc0_ain3        : L24," & 
+    "mcu_adc0_ain4        : L27," & 
+    "mcu_adc0_ain5        : K24," & 
+    "mcu_adc0_ain6        : M27," & 
+    "mcu_adc0_ain7        : M26," & 
+    "mcu_adc1_ain0        : P25," & 
+    "mcu_adc1_ain1        : R25," & 
+    "mcu_adc1_ain2        : P28," & 
+    "mcu_adc1_ain3        : P27," & 
+    "mcu_adc1_ain4        : N25," & 
+    "mcu_adc1_ain5        : P26," & 
+    "mcu_adc1_ain6        : N26," & 
+    "mcu_adc1_ain7        : N27," & 
+    "mcu_i2c0_scl         : G24," & 
+    "mcu_i2c0_sda         : J25," & 
+    "mcu_mcan0_rx         : E28," & 
+    "mcu_mcan0_tx         : E27," & 
+    "mcu_mdio0_mdc        : A21," & 
+    "mcu_mdio0_mdio       : A22," & 
+    "mcu_ospi0_clk        : D19," & 
+    "mcu_ospi0_csn0       : F15," & 
+    "mcu_ospi0_csn1       : G17," & 
+    "mcu_ospi0_csn2       : F14," & 
+    "mcu_ospi0_csn3       : F17," & 
+    "mcu_ospi0_d0         : C19," & 
+    "mcu_ospi0_d1         : F16," & 
+    "mcu_ospi0_d2         : G15," & 
+    "mcu_ospi0_d3         : F18," & 
+    "mcu_ospi0_d4         : E19," & 
+    "mcu_ospi0_d5         : G19," & 
+    "mcu_ospi0_d6         : F19," & 
+    "mcu_ospi0_d7         : F20," & 
+    "mcu_ospi0_dqs        : E18," & 
+    "mcu_ospi0_lbclko     : E20," & 
+    "mcu_ospi1_clk        : A19," & 
+    "mcu_ospi1_csn0       : D20," & 
+    "mcu_ospi1_csn1       : C21," & 
+    "mcu_ospi1_d0         : D21," & 
+    "mcu_ospi1_d1         : G20," & 
+    "mcu_ospi1_d2         : C20," & 
+    "mcu_ospi1_d3         : A20," & 
+    "mcu_ospi1_dqs        : B19," & 
+    "mcu_ospi1_lbclko     : B20," & 
+    "mcu_porz             : G23," & 
+    "mcu_resetstatz       : A23," & 
+    "mcu_resetz           : A26," & 
+    "mcu_rgmii1_rd0       : B22," & 
+    "mcu_rgmii1_rd1       : B21," & 
+    "mcu_rgmii1_rd2       : C22," & 
+    "mcu_rgmii1_rd3       : D23," & 
+    "mcu_rgmii1_rx_ctl    : E23," & 
+    "mcu_rgmii1_rxc       : D22," & 
+    "mcu_rgmii1_td0       : F23," & 
+    "mcu_rgmii1_td1       : G22," & 
+    "mcu_rgmii1_td2       : E21," & 
+    "mcu_rgmii1_td3       : E22," & 
+    "mcu_rgmii1_tx_ctl    : F22," & 
+    "mcu_rgmii1_txc       : F21," & 
+    "mcu_safety_errorn    : J23," & 
+    "mcu_spi0_clk         : B27," & 
+    "mcu_spi0_cs0         : B26," & 
+    "mcu_spi0_d0          : D24," & 
+    "mcu_spi0_d1          : B25," & 
+    "mmc0_calpad          : AF1," & 
+    "mmc0_clk             : AC6," & 
+    "mmc0_cmd             : AF2," & 
+    "mmc0_dat0            : AF4," & 
+    "mmc0_dat1            : AD3," & 
+    "mmc0_dat2            : AD4," & 
+    "mmc0_dat3            : AF3," & 
+    "mmc0_dat4            : AE2," & 
+    "mmc0_dat5            : AG3," & 
+    "mmc0_dat6            : AE1," & 
+    "mmc0_dat7            : AG1," & 
+    "mmc0_ds              : AE3," & 
+    "mmc0_vctrl_tp        : AD5," & 
+    "mmc1_clk             : P23," & 
+    "mmc1_cmd             : N24," & 
+    "mmc1_dat0            : M23," & 
+    "mmc1_dat1            : P24," & 
+    "mmc1_dat2            : R24," & 
+    "mmc1_dat3            : R22," & 
+    "osc1_xi              : M28," & 
+    "osc1_xo              : L28," & 
+    "pcie_refclk1_n_out   : AH10," & 
+    "pcie_refclk1_p_out   : AH11," & 
+    "pmic_power_en1       : G26," & 
+    "pmic_wake0           : AD24," & 
+    "porz                 : K23," & 
+    "reset_reqz           : A24," & 
+    "resetstatz           : AF27," & 
+    "serdes0_atb_0        : AD11," & 
+    "serdes0_atb_1        : AD10," & 
+    "serdes0_refclk_n     : AH4," & 
+    "serdes0_refclk_p     : AH5," & 
+    "serdes0_rext         : AC10," & 
+    "serdes0_rx0_n        : AF9," & 
+    "serdes0_rx0_p        : AF10," & 
+    "serdes0_rx1_n        : AE8," & 
+    "serdes0_rx1_p        : AE9," & 
+    "serdes0_rx2_n        : AF6," & 
+    "serdes0_rx2_p        : AF7," & 
+    "serdes0_rx3_n        : AE5," & 
+    "serdes0_rx3_p        : AE6," & 
+    "serdes0_tx0_n        : AH7," & 
+    "serdes0_tx0_p        : AH8," & 
+    "serdes0_tx1_n        : AG8," & 
+    "serdes0_tx1_p        : AG9," & 
+    "serdes0_tx2_n        : AG5," & 
+    "serdes0_tx2_p        : AG6," & 
+    "serdes0_tx3_n        : AD7," & 
+    "serdes0_tx3_p        : AD8," & 
+    "soc_safety_errorn    : AF25," & 
+    "spi0_clk             : AH27," & 
+    "spi0_cs0             : AE27," & 
+    "spi0_cs1             : AF26," & 
+    "spi0_d0              : AG26," & 
+    "spi0_d1              : AH26," & 
+    "tck                  : A25," & 
+    "tdi                  : AG28," & 
+    "tdo                  : AE26," & 
+    "temp_diode_p         : G21," & 
+    "timer_io0            : AE25," & 
+    "timer_io1            : AG25," & 
+    "tms                  : AG27," & 
+    "trstn                : B28," & 
+    "usb0_dm              : AG2," & 
+    "usb0_dp              : AH2," & 
+    "usb0_id              : AC9," & 
+    "usb0_rcalib          : AA6," & 
+    "usb0_vbus            : AA8," & 
+    "vdd_core             : (AB20, AA21, Y22, Y12, Y9, W21, W19, W17, W15, W13, W10, W8, V20, V18, V14, V9, V7, U17, U15, U8, T20, T10, R19, R17, P18, N10, M19, M16, J15, J13)," & 
+    "vdd_cpu              : (U13, U11, T14, T12, R15, R13, P16, N15, N11, M14, M9, M7, L8, K13, K11, K9, K7, J8, H7, G8)," & 
+    "vdd_mcu              : (L19, L17, L15, K18, K16)," & 
+    "vdd_mcu_wake1        : J19," & 
+    "vdd_wake0            : P20," & 
+    "vdda_0p8_csirx0_1    : (AB18, AB17)," & 
+    "vdda_0p8_dll_mmc0    : W7," & 
+    "vdda_0p8_dsitx       : AB14," & 
+    "vdda_0p8_dsitx_c     : AB15," & 
+    "vdda_0p8_pll_ddr0    : P10," & 
+    "vdda_0p8_pll_ddr1    : J14," & 
+    "vdda_0p8_serdes0_1   : (AB11, AB10)," & 
+    "vdda_0p8_serdes_c0_1 : (AA11, AA10)," & 
+    "vdda_0p8_usb         : AB8," & 
+    "vdda_1p8_csirx0_1    : (AA19, AA17)," & 
+    "vdda_1p8_dsitx       : (AA15, AA14)," & 
+    "vdda_1p8_serdes0_1   : AA12," & 
+    "vdda_1p8_serdes2_4   : AB13," & 
+    "vdda_1p8_usb         : AB7," & 
+    "vdda_3p3_usb         : AB9," & 
+    "vdda_adc0            : J21," & 
+    "vdda_adc1            : K21," & 
+    "vdda_mcu_pllgrp0     : K22," & 
+    "vdda_mcu_temp        : J17," & 
+    "vdda_osc1            : L21," & 
+    "vdda_pllgrp0         : U18," & 
+    "vdda_pllgrp1         : V19," & 
+    "vdda_pllgrp10        : Y16," & 
+    "vdda_pllgrp12        : Y18," & 
+    "vdda_pllgrp13        : V12," & 
+    "vdda_pllgrp2         : Y11," & 
+    "vdda_pllgrp5         : N14," & 
+    "vdda_pllgrp6         : R12," & 
+    "vdda_pllgrp7         : R11," & 
+    "vdda_pllgrp8         : K12," & 
+    "vdda_pllgrp9         : T18," & 
+    "vdda_por_wkup        : L20," & 
+    "vdda_temp0           : U19," & 
+    "vdda_temp1           : K10," & 
+    "vdda_temp2           : T16," & 
+    "vdda_temp3           : U10," & 
+    "vdda_temp4           : Y14," & 
+    "vdda_wkup            : J22," & 
+    "vddar_core           : (Y20, V16, V11, N17)," & 
+    "vddar_cpu            : (V13, P14, P11, K14, H9)," & 
+    "vddar_mcu            : (K19, K17)," & 
+    "vdds_ddr             : (AA1, U9, R6, P8, P7, N9, N6, L6, J6, H15, H13, H11, G14, G12, G10, G6, A18, A1)," & 
+    "vdds_ddr_c0          : R9," & 
+    "vdds_ddr_c1          : J12," & 
+    "vdds_mmc0            : (Y8, Y7)," & 
+    "vddshv0              : (U22, U21, R21)," & 
+    "vddshv0_mcu          : (H20, H19)," & 
+    "vddshv1_mcu          : (J16, H16)," & 
+    "vddshv2              : (R20, M20)," & 
+    "vddshv2_mcu          : (H18, G18)," & 
+    "vddshv5              : (N22, M21)," & 
+    "vmon1_er_vsys        : H23," & 
+    "vmon2_ir_vcpu        : M18," & 
+    "vmon3_ir_vext1p8     : L22," & 
+    "vmon4_ir_vext1p8     : N19," & 
+    "vmon5_ir_vext3p3     : N20," & 
+    "vmon6_ir_vext1p8     : L18," & 
+    "vpp_core             : V22," & 
+    "vpp_mcu              : H22," & 
+    "vsense               : K28," & 
+    "vss                  : (AH24, AH21, AH18, AH15, AH12, AH9, AH6, AH3, AH1, AG23, AG20, AG17, AG14, AG10, AG7, AG4, AF24, AF21, AF18, AF15, AF12, AF8, AF5, AE23, AE20, AE17, AE14, AE10, AE7, AE4, AD21, AD18, AD15, AD9, AD6, AC26, AC22, AC11, AC8, AC7, AC5, AC3, AB23, AB21, AB19, AB16, AB12, AB6, AB4, AB2, AA22, AA20, AA18, AA16, AA13, AA9, AA7, AA5, AA3, Y23, Y21, Y19, Y17, Y15, Y13, Y10, Y6, Y4, Y2, W26, W22, W20, W18, W16, W14, W12, W11, W9, W6, W3, W1, V24, V21, V17, V15, V10, V8, V6, V4, V2, U23, U20, U16, U14, U12, U7, U5, U3, T22, T19, T17, T15, T13, T11, T9, T6, T4, T2, R26, R23, R18, R16, R14, R10, R7, P22, P19, P17, P15, P9, P6, N23, N21, N18, N16, N7, N3, N1, M25, M17, M15, M8, M6, M4, M2, L16, L14, L9, L7, L5, L3, K27, K20, K15, K8, K6, K4, K2, J24, J18, J11, J9, J7, J5, J3, J1, H21, H14, H12, H10, H8, H6, H4, H2, G28, G13, G9, G7, G5, G3, F6, F4, F2, E26, E16, E14, E12, E7, E5, E3, E1, D17, D15, D13, D11, D8, D6, D4, D2, C18, C16, C14, C12, C7, C5, C3, C1, B23, B17, B15, B13, B11, B8, B6, B4, B2, A14, A5)," & 
+    "wkup_gpio0_0         : D26," & 
+    "wkup_gpio0_1         : E24," & 
+    "wkup_gpio0_10        : F27," & 
+    "wkup_gpio0_11        : F25," & 
+    "wkup_gpio0_12        : C25," & 
+    "wkup_gpio0_13        : C24," & 
+    "wkup_gpio0_14        : B24," & 
+    "wkup_gpio0_15        : D25," & 
+    "wkup_gpio0_2         : C28," & 
+    "wkup_gpio0_3         : C27," & 
+    "wkup_gpio0_4         : C23," & 
+    "wkup_gpio0_49        : K26," & 
+    "wkup_gpio0_5         : F26," & 
+    "wkup_gpio0_56        : G27," & 
+    "wkup_gpio0_57        : J26," & 
+    "wkup_gpio0_6         : E25," & 
+    "wkup_gpio0_66        : G25," & 
+    "wkup_gpio0_67        : J27," & 
+    "wkup_gpio0_7         : F28," & 
+    "wkup_gpio0_8         : F24," & 
+    "wkup_gpio0_9         : H26," & 
+    "wkup_i2c0_scl        : H24," & 
+    "wkup_i2c0_sda        : H27," & 
+    "wkup_osc0_xi         : H28," & 
+    "wkup_osc0_xo         : J28," & 
+    "wkup_uart0_rxd       : D28," & 
+    "wkup_uart0_txd       : D27";
+
+  attribute PORT_GROUPING of j721s2 : entity is
+    "Differential_Voltage  (                 "&
+    "(dsi0_txp0,     dsi0_txn0),             "&
+    "(dsi0_txp1,     dsi0_txn1),             "&
+    "(dsi0_txp2,     dsi0_txn2),             "&
+    "(dsi0_txp3,     dsi0_txn3),             "&
+    "(dsi0_txclkp,   dsi0_txclkn),           "&
+    "(dsi1_txp0,     dsi1_txn0),             "&
+    "(dsi1_txp1,     dsi1_txn1),             "&
+    "(dsi1_txp2,     dsi1_txn2),             "&
+    "(dsi1_txp3,     dsi1_txn3),             "&
+    "(dsi1_txclkp,   dsi1_txclkn),           "&
+    "(serdes0_tx0_p, serdes0_tx0_n),         "&
+    "(serdes0_tx1_p, serdes0_tx1_n),         "&
+    "(serdes0_tx2_p, serdes0_tx2_n),         "&
+    "(serdes0_tx3_p, serdes0_tx3_n),         "&
+    "(ddr0_ckp,      ddr0_ckn),              "&
+    "(ddr1_ckp,      ddr1_ckn),              "&
+    "(ddr0_dqs0p,    ddr0_dqs0n),            "&
+    "(ddr0_dqs1p,    ddr0_dqs1n),            "&
+    "(ddr0_dqs2p,    ddr0_dqs2n),            "&
+    "(ddr0_dqs3p,    ddr0_dqs3n),            "&
+    "(ddr1_dqs0p,    ddr1_dqs0n),            "&
+    "(ddr1_dqs1p,    ddr1_dqs1n),            "&
+    "(ddr1_dqs2p,    ddr1_dqs2n),            "&
+    "(ddr1_dqs3p,    ddr1_dqs3n)) ";
+
+  attribute TAP_SCAN_IN    of tdi    : signal is true;
+  attribute TAP_SCAN_MODE  of tms    : signal is true;
+  attribute TAP_SCAN_OUT   of tdo    : signal is true;
+  attribute TAP_SCAN_CLOCK of tck    : signal is (30.0e6,BOTH);
+  attribute TAP_SCAN_RESET of trstn  : signal is true;
+
+  attribute COMPLIANCE_PATTERNS of j721s2 : entity is "(ddr0_ret, ddr1_ret, porz, mcu_porz, reset_reqz, mcu_resetz, emu0, emu1)(00111110)";
+
+  attribute INSTRUCTION_LENGTH  of j721s2 : entity is 4;
+
+  attribute INSTRUCTION_OPCODE  of j721s2 : entity is
+      "EXTEST            (0001),          "&
+      "SAMPLE            (0010),          "&
+      "PRELOAD           (0010),          "&
+      "EXTEST_PULSE      (0111),          "&
+      "EXTEST_TRAIN      (0110),          "&
+      "IDCODE            (1101),          "&
+      "BYPASS            (0000,1111)";
+
+  attribute INSTRUCTION_CAPTURE of j721s2 : entity is "0001";
+  
+  attribute IDCODE_REGISTER     of j721s2 : entity is
+      "0000" &                            -- Version Number
+      "1011101101110101" &                -- Part Number                          
+      "00000010111" &                     -- Manufacturer ID
+      "1";                                -- Required by IEEE Std. 1149.1-1990
+
+  attribute REGISTER_ACCESS of j721s2 : entity is
+      "DEVICE_ID     (IDCODE),            "&
+      "BOUNDARY      (EXTEST),            "&
+      "BOUNDARY      (SAMPLE),            "&
+      "BOUNDARY      (PRELOAD),           "&
+      "BOUNDARY      (EXTEST_PULSE),      "&
+      "BOUNDARY      (EXTEST_TRAIN),      "&
+      "BYPASS        (BYPASS)             ";
+
+  attribute BOUNDARY_LENGTH of j721s2 : entity is 600;
+
+  attribute BOUNDARY_REGISTER of j721s2 : entity is
+--    num  cell   port                          function           safe [ ccell  disval  rslt]
+    " 599 (BC_1 , mcu_adc1_ain0                   , input       ,      X                                )," &
+    " 598 (BC_1 , mcu_adc1_ain1                   , input       ,      X                                )," &
+    " 597 (BC_1 , mcu_adc1_ain2                   , input       ,      X                                )," &
+    " 596 (BC_1 , mcu_adc1_ain3                   , input       ,      X                                )," &
+    " 595 (BC_1 , mcu_adc1_ain4                   , input       ,      X                                )," &
+    " 594 (BC_1 , mcu_adc1_ain5                   , input       ,      X                                )," &
+    " 593 (BC_1 , mcu_adc1_ain6                   , input       ,      X                                )," &
+    " 592 (BC_1 , mcu_adc1_ain7                   , input       ,      X                                )," &
+    " 591 (BC_7 , wkup_gpio0_49                   , bidir       ,      X,     590,   1,      Z          )," &
+    " 590 (BC_2 , *                               , control     ,      1                                )," &
+    " 589 (BC_1 , mcu_i2c0_scl                    , output2     ,      1,     589,   1,      WEAK1      )," &
+    " 588 (BC_1 , *                               , internal    ,      0                                )," &
+    " 587 (BC_3 , mcu_i2c0_scl                    , input       ,      X                                )," &
+    " 586 (BC_1 , wkup_i2c0_scl                   , output2     ,      1,     586,   1,      WEAK1      )," &
+    " 585 (BC_1 , *                               , internal    ,      0                                )," &
+    " 584 (BC_3 , wkup_i2c0_scl                   , input       ,      X                                )," &
+    " 583 (BC_7 , wkup_gpio0_66                   , bidir       ,      X,     582,   1,      Z          )," &
+    " 582 (BC_2 , *                               , control     ,      1                                )," &
+    " 581 (BC_7 , wkup_gpio0_56                   , bidir       ,      X,     580,   1,      Z          )," &
+    " 580 (BC_2 , *                               , control     ,      1                                )," &
+    " 579 (BC_7 , wkup_gpio0_10                   , bidir       ,      X,     578,   1,      Z          )," &
+    " 578 (BC_2 , *                               , control     ,      1                                )," &
+    " 577 (BC_7 , wkup_gpio0_8                    , bidir       ,      X,     576,   1,      Z          )," &
+    " 576 (BC_2 , *                               , control     ,      1                                )," &
+    " 575 (BC_7 , wkup_gpio0_6                    , bidir       ,      X,     574,   1,      Z          )," &
+    " 574 (BC_2 , *                               , control     ,      1                                )," &
+    " 573 (BC_7 , mcu_mcan0_tx                    , bidir       ,      X,     572,   1,      Z          )," &
+    " 572 (BC_2 , *                               , control     ,      1                                )," &
+    " 571 (BC_7 , wkup_uart0_txd                  , bidir       ,      X,     570,   1,      Z          )," &
+    " 570 (BC_2 , *                               , control     ,      1                                )," &
+    " 569 (BC_7 , wkup_gpio0_15                   , bidir       ,      X,     568,   1,      Z          )," &
+    " 568 (BC_2 , *                               , control     ,      1                                )," &
+    " 567 (BC_7 , wkup_gpio0_5                    , bidir       ,      X,     566,   1,      Z          )," &
+    " 566 (BC_2 , *                               , control     ,      1                                )," &
+    " 565 (BC_7 , wkup_gpio0_2                    , bidir       ,      X,     564,   1,      Z          )," &
+    " 564 (BC_2 , *                               , control     ,      1                                )," &
+    " 563 (BC_7 , wkup_gpio0_0                    , bidir       ,      X,     562,   1,      Z          )," &
+    " 562 (BC_2 , *                               , control     ,      1                                )," &
+    " 561 (BC_7 , wkup_gpio0_12                   , bidir       ,      X,     560,   1,      Z          )," &
+    " 560 (BC_2 , *                               , control     ,      1                                )," &
+    " 559 (BC_7 , mcu_spi0_d1                     , bidir       ,      X,     558,   1,      Z          )," &
+    " 558 (BC_2 , *                               , control     ,      1                                )," &
+    " 557 (BC_7 , mcu_spi0_cs0                    , bidir       ,      X,     556,   1,      Z          )," &
+    " 556 (BC_2 , *                               , control     ,      1                                )," &
+    " 555 (BC_7 , mcu_resetstatz                  , bidir       ,      X,     554,   1,      Z          )," &
+    " 554 (BC_2 , *                               , control     ,      1                                )," &
+    " 553 (BC_7 , mcu_rgmii1_td2                  , bidir       ,      X,     552,   1,      Z          )," &
+    " 552 (BC_2 , *                               , control     ,      1                                )," &
+    " 551 (BC_7 , mcu_rgmii1_td1                  , bidir       ,      X,     550,   1,      Z          )," &
+    " 550 (BC_2 , *                               , control     ,      1                                )," &
+    " 549 (BC_7 , mcu_rgmii1_tx_ctl               , bidir       ,      X,     548,   1,      Z          )," &
+    " 548 (BC_2 , *                               , control     ,      1                                )," &
+    " 547 (BC_7 , mcu_rgmii1_rd3                  , bidir       ,      X,     546,   1,      Z          )," &
+    " 546 (BC_2 , *                               , control     ,      1                                )," &
+    " 545 (BC_7 , mcu_rgmii1_rd2                  , bidir       ,      X,     544,   1,      Z          )," &
+    " 544 (BC_2 , *                               , control     ,      1                                )," &
+    " 543 (BC_7 , mcu_rgmii1_rd0                  , bidir       ,      X,     542,   1,      Z          )," &
+    " 542 (BC_2 , *                               , control     ,      1                                )," &
+    " 541 (BC_7 , mcu_mdio0_mdc                   , bidir       ,      X,     540,   1,      Z          )," &
+    " 540 (BC_2 , *                               , control     ,      1                                )," &
+    " 539 (BC_7 , mcu_ospi1_csn0                  , bidir       ,      X,     538,   1,      Z          )," &
+    " 538 (BC_2 , *                               , control     ,      1                                )," &
+    " 537 (BC_7 , mcu_ospi1_d2                    , bidir       ,      X,     536,   1,      Z          )," &
+    " 536 (BC_2 , *                               , control     ,      1                                )," &
+    " 535 (BC_7 , mcu_ospi1_dqs                   , bidir       ,      X,     534,   1,      Z          )," &
+    " 534 (BC_2 , *                               , control     ,      1                                )," &
+    " 533 (BC_7 , mcu_ospi1_d1                    , bidir       ,      X,     532,   1,      Z          )," &
+    " 532 (BC_2 , *                               , control     ,      1                                )," &
+    " 531 (BC_7 , mcu_ospi0_d7                    , bidir       ,      X,     530,   1,      Z          )," &
+    " 530 (BC_2 , *                               , control     ,      1                                )," &
+    " 529 (BC_7 , mcu_ospi0_d5                    , bidir       ,      X,     528,   1,      Z          )," &
+    " 528 (BC_2 , *                               , control     ,      1                                )," &
+    " 527 (BC_7 , mcu_ospi0_lbclko                , bidir       ,      X,     526,   1,      Z          )," &
+    " 526 (BC_2 , *                               , control     ,      1                                )," &
+    " 525 (BC_7 , mcu_ospi0_clk                   , bidir       ,      X,     524,   1,      Z          )," &
+    " 524 (BC_2 , *                               , control     ,      1                                )," &
+    " 523 (BC_7 , mcu_ospi0_d2                    , bidir       ,      X,     522,   1,      Z          )," &
+    " 522 (BC_2 , *                               , control     ,      1                                )," &
+    " 521 (BC_7 , mcu_ospi0_d0                    , bidir       ,      X,     520,   1,      Z          )," &
+    " 520 (BC_2 , *                               , control     ,      1                                )," &
+    " 519 (BC_7 , mcu_ospi0_csn2                  , bidir       ,      X,     518,   1,      Z          )," &
+    " 518 (BC_2 , *                               , control     ,      1                                )," &
+    " 517 (BC_7 , mcu_ospi0_csn0                  , bidir       ,      X,     516,   1,      Z          )," &
+    " 516 (BC_2 , *                               , control     ,      1                                )," &
+    " 515 (BC_7 , mcu_ospi0_csn1                  , bidir       ,      X,     514,   1,      Z          )," &
+    " 514 (BC_2 , *                               , control     ,      1                                )," &
+    " 513 (BC_7 , mcu_ospi0_csn3                  , bidir       ,      X,     512,   1,      Z          )," &
+    " 512 (BC_2 , *                               , control     ,      1                                )," &
+    " 511 (BC_7 , mcu_ospi0_d1                    , bidir       ,      X,     510,   1,      Z          )," &
+    " 510 (BC_2 , *                               , control     ,      1                                )," &
+    " 509 (BC_7 , mcu_ospi0_d3                    , bidir       ,      X,     508,   1,      Z          )," &
+    " 508 (BC_2 , *                               , control     ,      1                                )," &
+    " 507 (BC_7 , mcu_ospi0_dqs                   , bidir       ,      X,     506,   1,      Z          )," &
+    " 506 (BC_2 , *                               , control     ,      1                                )," &
+    " 505 (BC_7 , mcu_ospi0_d4                    , bidir       ,      X,     504,   1,      Z          )," &
+    " 504 (BC_2 , *                               , control     ,      1                                )," &
+    " 503 (BC_7 , mcu_ospi0_d6                    , bidir       ,      X,     502,   1,      Z          )," &
+    " 502 (BC_2 , *                               , control     ,      1                                )," &
+    " 501 (BC_7 , mcu_ospi1_d0                    , bidir       ,      X,     500,   1,      Z          )," &
+    " 500 (BC_2 , *                               , control     ,      1                                )," &
+    " 499 (BC_7 , mcu_ospi1_clk                   , bidir       ,      X,     498,   1,      Z          )," &
+    " 498 (BC_2 , *                               , control     ,      1                                )," &
+    " 497 (BC_7 , mcu_ospi1_lbclko                , bidir       ,      X,     496,   1,      Z          )," &
+    " 496 (BC_2 , *                               , control     ,      1                                )," &
+    " 495 (BC_7 , mcu_ospi1_d3                    , bidir       ,      X,     494,   1,      Z          )," &
+    " 494 (BC_2 , *                               , control     ,      1                                )," &
+    " 493 (BC_7 , mcu_ospi1_csn1                  , bidir       ,      X,     492,   1,      Z          )," &
+    " 492 (BC_2 , *                               , control     ,      1                                )," &
+    " 491 (BC_7 , mcu_mdio0_mdio                  , bidir       ,      X,     490,   1,      Z          )," &
+    " 490 (BC_2 , *                               , control     ,      1                                )," &
+    " 489 (BC_7 , mcu_rgmii1_rd1                  , bidir       ,      X,     488,   1,      Z          )," &
+    " 488 (BC_2 , *                               , control     ,      1                                )," &
+    " 487 (BC_7 , mcu_rgmii1_rxc                  , bidir       ,      X,     486,   1,      Z          )," &
+    " 486 (BC_2 , *                               , control     ,      1                                )," &
+    " 485 (BC_7 , mcu_rgmii1_rx_ctl               , bidir       ,      X,     484,   1,      Z          )," &
+    " 484 (BC_2 , *                               , control     ,      1                                )," &
+    " 483 (BC_7 , mcu_rgmii1_td0                  , bidir       ,      X,     482,   1,      Z          )," &
+    " 482 (BC_2 , *                               , control     ,      1                                )," &
+    " 481 (BC_7 , mcu_rgmii1_txc                  , bidir       ,      X,     480,   1,      Z          )," &
+    " 480 (BC_2 , *                               , control     ,      1                                )," &
+    " 479 (BC_7 , mcu_rgmii1_td3                  , bidir       ,      X,     478,   1,      Z          )," &
+    " 478 (BC_2 , *                               , control     ,      1                                )," &
+    " 477 (BC_7 , mcu_spi0_clk                    , bidir       ,      X,     476,   1,      Z          )," &
+    " 476 (BC_2 , *                               , control     ,      1                                )," &
+    " 475 (BC_7 , mcu_spi0_d0                     , bidir       ,      X,     474,   1,      Z          )," &
+    " 474 (BC_2 , *                               , control     ,      1                                )," &
+    " 473 (BC_7 , wkup_gpio0_4                    , bidir       ,      X,     472,   1,      Z          )," &
+    " 472 (BC_2 , *                               , control     ,      1                                )," &
+    " 471 (BC_7 , wkup_gpio0_14                   , bidir       ,      X,     470,   1,      Z          )," &
+    " 470 (BC_2 , *                               , control     ,      1                                )," &
+    " 469 (BC_7 , wkup_gpio0_1                    , bidir       ,      X,     468,   1,      Z          )," &
+    " 468 (BC_2 , *                               , control     ,      1                                )," &
+    " 467 (BC_7 , wkup_gpio0_3                    , bidir       ,      X,     466,   1,      Z          )," &
+    " 466 (BC_2 , *                               , control     ,      1                                )," &
+    " 465 (BC_7 , wkup_gpio0_13                   , bidir       ,      X,     464,   1,      Z          )," &
+    " 464 (BC_2 , *                               , control     ,      1                                )," &
+    " 463 (BC_7 , wkup_uart0_rxd                  , bidir       ,      X,     462,   1,      Z          )," &
+    " 462 (BC_2 , *                               , control     ,      1                                )," &
+    " 461 (BC_7 , mcu_mcan0_rx                    , bidir       ,      X,     460,   1,      Z          )," &
+    " 460 (BC_2 , *                               , control     ,      1                                )," &
+    " 459 (BC_7 , pmic_power_en1                  , bidir       ,      X,     458,   1,      Z          )," &
+    " 458 (BC_2 , *                               , control     ,      1                                )," &
+    " 457 (BC_7 , wkup_gpio0_7                    , bidir       ,      X,     456,   1,      Z          )," &
+    " 456 (BC_2 , *                               , control     ,      1                                )," &
+    " 455 (BC_7 , wkup_gpio0_9                    , bidir       ,      X,     454,   1,      Z          )," &
+    " 454 (BC_2 , *                               , control     ,      1                                )," &
+    " 453 (BC_7 , wkup_gpio0_11                   , bidir       ,      X,     452,   1,      Z          )," &
+    " 452 (BC_2 , *                               , control     ,      1                                )," &
+    " 451 (BC_7 , wkup_gpio0_57                   , bidir       ,      X,     450,   1,      Z          )," &
+    " 450 (BC_2 , *                               , control     ,      1                                )," &
+    " 449 (BC_7 , wkup_gpio0_67                   , bidir       ,      X,     448,   1,      Z          )," &
+    " 448 (BC_2 , *                               , control     ,      1                                )," &
+    " 447 (BC_1 , wkup_i2c0_sda                   , output2     ,      1,     447,   1,      WEAK1      )," &
+    " 446 (BC_1 , *                               , internal    ,      0                                )," &
+    " 445 (BC_3 , wkup_i2c0_sda                   , input       ,      X                                )," &
+    " 444 (BC_1 , mcu_i2c0_sda                    , output2     ,      1,     444,   1,      WEAK1      )," &
+    " 443 (BC_1 , *                               , internal    ,      0                                )," &
+    " 442 (BC_3 , mcu_i2c0_sda                    , input       ,      X                                )," &
+    " 441 (BC_7 , mcu_safety_errorn               , bidir       ,      X,     440,   1,      PULL0      )," &
+    " 440 (BC_2 , *                               , control     ,      1                                )," &
+    " 439 (BC_1 , mcu_adc0_ain0                   , input       ,      X                                )," &
+    " 438 (BC_1 , mcu_adc0_ain1                   , input       ,      X                                )," &
+    " 437 (BC_1 , mcu_adc0_ain2                   , input       ,      X                                )," &
+    " 436 (BC_1 , mcu_adc0_ain3                   , input       ,      X                                )," &
+    " 435 (BC_1 , mcu_adc0_ain4                   , input       ,      X                                )," &
+    " 434 (BC_1 , mcu_adc0_ain5                   , input       ,      X                                )," &
+    " 433 (BC_1 , mcu_adc0_ain6                   , input       ,      X                                )," &
+    " 432 (BC_1 , mcu_adc0_ain7                   , input       ,      X                                )," &
+    " 431 (BC_7 , mmc1_cmd                        , bidir       ,      X,     430,   1,      Z          )," &
+    " 430 (BC_2 , *                               , control     ,      1                                )," &
+    " 429 (BC_1 , *                               , internal    ,      0                                )," &
+    " 428 (BC_1 , *                               , internal    ,      0                                )," &
+    " 427 (BC_7 , mmc1_dat2                       , bidir       ,      X,     426,   1,      Z          )," &
+    " 426 (BC_2 , *                               , control     ,      1                                )," &
+    " 425 (BC_7 , mcasp1_afsx                     , bidir       ,      X,     424,   1,      Z          )," &
+    " 424 (BC_2 , *                               , control     ,      1                                )," &
+    " 423 (BC_7 , mcan2_tx                        , bidir       ,      X,     422,   1,      Z          )," &
+    " 422 (BC_2 , *                               , control     ,      1                                )," &
+    " 421 (BC_7 , mcan0_rx                        , bidir       ,      X,     420,   1,      Z          )," &
+    " 420 (BC_2 , *                               , control     ,      1                                )," &
+    " 419 (BC_7 , mcasp0_axr5                     , bidir       ,      X,     418,   1,      Z          )," &
+    " 418 (BC_2 , *                               , control     ,      1                                )," &
+    " 417 (BC_7 , mcasp0_axr3                     , bidir       ,      X,     416,   1,      Z          )," &
+    " 416 (BC_2 , *                               , control     ,      1                                )," &
+    " 415 (BC_7 , mcasp0_aclkx                    , bidir       ,      X,     414,   1,      Z          )," &
+    " 414 (BC_2 , *                               , control     ,      1                                )," &
+    " 413 (BC_7 , mcasp1_axr2                     , bidir       ,      X,     412,   1,      Z          )," &
+    " 412 (BC_2 , *                               , control     ,      1                                )," &
+    " 411 (BC_7 , mcasp2_afsx                     , bidir       ,      X,     410,   1,      Z          )," &
+    " 410 (BC_2 , *                               , control     ,      1                                )," &
+    " 409 (BC_7 , mcasp0_axr0                     , bidir       ,      X,     408,   1,      Z          )," &
+    " 408 (BC_2 , *                               , control     ,      1                                )," &
+    " 407 (BC_7 , mcan1_tx                        , bidir       ,      X,     406,   1,      Z          )," &
+    " 406 (BC_2 , *                               , control     ,      1                                )," &
+    " 405 (BC_7 , mcasp0_axr2                     , bidir       ,      X,     404,   1,      Z          )," &
+    " 404 (BC_2 , *                               , control     ,      1                                )," &
+    " 403 (BC_7 , mcasp2_axr0                     , bidir       ,      X,     402,   1,      Z          )," &
+    " 402 (BC_2 , *                               , control     ,      1                                )," &
+    " 401 (BC_7 , ecap0_in_apwm_out               , bidir       ,      X,     400,   1,      Z          )," &
+    " 400 (BC_2 , *                               , control     ,      1                                )," &
+    " 399 (BC_7 , mcan12_tx                       , bidir       ,      X,     398,   1,      Z          )," &
+    " 398 (BC_2 , *                               , control     ,      1                                )," &
+    " 397 (BC_7 , mcasp0_axr7                     , bidir       ,      X,     396,   1,      Z          )," &
+    " 396 (BC_2 , *                               , control     ,      1                                )," &
+    " 395 (BC_7 , mcasp0_axr10                    , bidir       ,      X,     394,   1,      Z          )," &
+    " 394 (BC_2 , *                               , control     ,      1                                )," &
+    " 393 (BC_7 , mcasp0_axr9                     , bidir       ,      X,     392,   1,      Z          )," &
+    " 392 (BC_2 , *                               , control     ,      1                                )," &
+    " 391 (BC_7 , mcasp1_aclkx                    , bidir       ,      X,     390,   1,      Z          )," &
+    " 390 (BC_2 , *                               , control     ,      1                                )," &
+    " 389 (BC_7 , mcasp0_axr13                    , bidir       ,      X,     388,   1,      Z          )," &
+    " 388 (BC_2 , *                               , control     ,      1                                )," &
+    " 387 (BC_7 , mcasp0_axr14                    , bidir       ,      X,     386,   1,      Z          )," &
+    " 386 (BC_2 , *                               , control     ,      1                                )," &
+    " 385 (BC_7 , gpio0_11                        , bidir       ,      X,     384,   1,      Z          )," &
+    " 384 (BC_2 , *                               , control     ,      1                                )," &
+    " 383 (BC_7 , mcan15_tx                       , bidir       ,      X,     382,   1,      Z          )," &
+    " 382 (BC_2 , *                               , control     ,      1                                )," &
+    " 381 (BC_7 , mcan15_rx                       , bidir       ,      X,     380,   1,      Z          )," &
+    " 380 (BC_2 , *                               , control     ,      1                                )," &
+    " 379 (BC_7 , mcan13_rx                       , bidir       ,      X,     378,   1,      Z          )," &
+    " 378 (BC_2 , *                               , control     ,      1                                )," &
+    " 377 (BC_7 , mcan12_rx                       , bidir       ,      X,     376,   1,      Z          )," &
+    " 376 (BC_2 , *                               , control     ,      1                                )," &
+    " 375 (BC_7 , resetstatz                      , bidir       ,      X,     374,   1,      Z          )," &
+    " 374 (BC_2 , *                               , control     ,      1                                )," &
+    " 373 (BC_7 , spi0_cs0                        , bidir       ,      X,     372,   1,      Z          )," &
+    " 372 (BC_2 , *                               , control     ,      1                                )," &
+    " 371 (BC_7 , spi0_clk                        , bidir       ,      X,     370,   1,      Z          )," &
+    " 370 (BC_2 , *                               , control     ,      1                                )," &
+    " 369 (BC_7 , spi0_d1                         , bidir       ,      X,     368,   1,      Z          )," &
+    " 368 (BC_2 , *                               , control     ,      1                                )," &
+    " 367 (BC_7 , timer_io0                       , bidir       ,      X,     366,   1,      Z          )," &
+    " 366 (BC_2 , *                               , control     ,      1                                )," &
+    " 365 (BC_1 , i2c0_scl                        , output2     ,      1,     365,   1,      WEAK1      )," &
+    " 364 (BC_1 , *                               , internal    ,      0                                )," &
+    " 363 (BC_3 , i2c0_scl                        , input       ,      X                                )," &
+    " 362 (BC_1 , extintn                         , output2     ,      1,     362,   1,      WEAK1      )," &
+    " 361 (BC_1 , *                               , internal    ,      0                                )," &
+    " 360 (BC_3 , extintn                         , input       ,      X                                )," &
+    " 359 (BC_1 , i2c0_sda                        , output2     ,      1,     359,   1,      WEAK1      )," &
+    " 358 (BC_1 , *                               , internal    ,      0                                )," &
+    " 357 (BC_3 , i2c0_sda                        , input       ,      X                                )," &
+    " 356 (BC_7 , timer_io1                       , bidir       ,      X,     355,   1,      Z          )," &
+    " 355 (BC_2 , *                               , control     ,      1                                )," &
+    " 354 (BC_7 , soc_safety_errorn               , bidir       ,      X,     353,   1,      PULL0      )," &
+    " 353 (BC_2 , *                               , control     ,      1                                )," &
+    " 352 (BC_7 , spi0_d0                         , bidir       ,      X,     351,   1,      Z          )," &
+    " 351 (BC_2 , *                               , control     ,      1                                )," &
+    " 350 (BC_7 , spi0_cs1                        , bidir       ,      X,     349,   1,      Z          )," &
+    " 349 (BC_2 , *                               , control     ,      1                                )," &
+    " 348 (BC_7 , pmic_wake0                      , bidir       ,      X,     347,   1,      Z          )," &
+    " 347 (BC_2 , *                               , control     ,      1                                )," &
+    " 346 (BC_7 , mcan14_tx                       , bidir       ,      X,     345,   1,      Z          )," &
+    " 345 (BC_2 , *                               , control     ,      1                                )," &
+    " 344 (BC_7 , mcan13_tx                       , bidir       ,      X,     343,   1,      Z          )," &
+    " 343 (BC_2 , *                               , control     ,      1                                )," &
+    " 342 (BC_7 , mcan16_rx                       , bidir       ,      X,     341,   1,      Z          )," &
+    " 341 (BC_2 , *                               , control     ,      1                                )," &
+    " 340 (BC_7 , mcan14_rx                       , bidir       ,      X,     339,   1,      Z          )," &
+    " 339 (BC_2 , *                               , control     ,      1                                )," &
+    " 338 (BC_7 , mcasp0_axr15                    , bidir       ,      X,     337,   1,      Z          )," &
+    " 337 (BC_2 , *                               , control     ,      1                                )," &
+    " 336 (BC_7 , mcasp1_axr3                     , bidir       ,      X,     335,   1,      Z          )," &
+    " 335 (BC_2 , *                               , control     ,      1                                )," &
+    " 334 (BC_7 , mcasp0_axr12                    , bidir       ,      X,     333,   1,      Z          )," &
+    " 333 (BC_2 , *                               , control     ,      1                                )," &
+    " 332 (BC_7 , mcasp0_axr11                    , bidir       ,      X,     331,   1,      Z          )," &
+    " 331 (BC_2 , *                               , control     ,      1                                )," &
+    " 330 (BC_7 , mcasp1_axr4                     , bidir       ,      X,     329,   1,      Z          )," &
+    " 329 (BC_2 , *                               , control     ,      1                                )," &
+    " 328 (BC_7 , mcasp0_axr8                     , bidir       ,      X,     327,   1,      Z          )," &
+    " 327 (BC_2 , *                               , control     ,      1                                )," &
+    " 326 (BC_7 , mcasp0_axr6                     , bidir       ,      X,     325,   1,      Z          )," &
+    " 325 (BC_2 , *                               , control     ,      1                                )," &
+    " 324 (BC_7 , mcasp2_axr1                     , bidir       ,      X,     323,   1,      Z          )," &
+    " 323 (BC_2 , *                               , control     ,      1                                )," &
+    " 322 (BC_7 , gpio0_12                        , bidir       ,      X,     321,   1,      Z          )," &
+    " 321 (BC_2 , *                               , control     ,      1                                )," &
+    " 320 (BC_7 , mcan2_rx                        , bidir       ,      X,     319,   1,      Z          )," &
+    " 319 (BC_2 , *                               , control     ,      1                                )," &
+    " 318 (BC_7 , mcasp0_axr4                     , bidir       ,      X,     317,   1,      Z          )," &
+    " 317 (BC_2 , *                               , control     ,      1                                )," &
+    " 316 (BC_7 , mcasp0_axr1                     , bidir       ,      X,     315,   1,      Z          )," &
+    " 315 (BC_2 , *                               , control     ,      1                                )," &
+    " 314 (BC_7 , mcasp2_aclkx                    , bidir       ,      X,     313,   1,      Z          )," &
+    " 313 (BC_2 , *                               , control     ,      1                                )," &
+    " 312 (BC_7 , mcasp1_axr1                     , bidir       ,      X,     311,   1,      Z          )," &
+    " 311 (BC_2 , *                               , control     ,      1                                )," &
+    " 310 (BC_7 , mcasp0_afsx                     , bidir       ,      X,     309,   1,      Z          )," &
+    " 309 (BC_2 , *                               , control     ,      1                                )," &
+    " 308 (BC_7 , mcan16_tx                       , bidir       ,      X,     307,   1,      Z          )," &
+    " 307 (BC_2 , *                               , control     ,      1                                )," &
+    " 306 (BC_7 , mcan1_rx                        , bidir       ,      X,     305,   1,      Z          )," &
+    " 305 (BC_2 , *                               , control     ,      1                                )," &
+    " 304 (BC_7 , mcan0_tx                        , bidir       ,      X,     303,   1,      Z          )," &
+    " 303 (BC_2 , *                               , control     ,      1                                )," &
+    " 302 (BC_7 , mcasp1_axr0                     , bidir       ,      X,     301,   1,      Z          )," &
+    " 301 (BC_2 , *                               , control     ,      1                                )," &
+    " 300 (BC_7 , mmc1_dat3                       , bidir       ,      X,     299,   1,      Z          )," &
+    " 299 (BC_2 , *                               , control     ,      1                                )," &
+    " 298 (BC_7 , mmc1_clk                        , bidir       ,      X,     297,   1,      Z          )," &
+    " 297 (BC_2 , *                               , control     ,      1                                )," &
+    " 296 (BC_7 , mmc1_dat1                       , bidir       ,      X,     295,   1,      Z          )," &
+    " 295 (BC_2 , *                               , control     ,      1                                )," &
+    " 294 (BC_7 , mmc1_dat0                       , bidir       ,      X,     293,   1,      Z          )," &
+    " 293 (BC_2 , *                               , control     ,      1                                )," &
+    " 292 (BC_7 , ddr0_ca0                        , bidir       ,      X,     291,   1,      Z          )," &
+    " 291 (BC_2 , *                               , control     ,      1                                )," &
+    " 290 (BC_7 , ddr0_ca1                        , bidir       ,      X,     289,   1,      Z          )," &
+    " 289 (BC_2 , *                               , control     ,      1                                )," &
+    " 288 (BC_7 , ddr0_ca2                        , bidir       ,      X,     287,   1,      Z          )," &
+    " 287 (BC_2 , *                               , control     ,      1                                )," &
+    " 286 (BC_7 , ddr0_ca3                        , bidir       ,      X,     285,   1,      Z          )," &
+    " 285 (BC_2 , *                               , control     ,      1                                )," &
+    " 284 (BC_7 , ddr0_ca4                        , bidir       ,      X,     283,   1,      Z          )," &
+    " 283 (BC_2 , *                               , control     ,      1                                )," &
+    " 282 (BC_7 , ddr0_ca5                        , bidir       ,      X,     281,   1,      Z          )," &
+    " 281 (BC_2 , *                               , control     ,      1                                )," &
+    " 280 (BC_7 , ddr0_cke0                       , bidir       ,      X,     279,   1,      Z          )," &
+    " 279 (BC_2 , *                               , control     ,      1                                )," &
+    " 278 (BC_7 , ddr0_cke1                       , bidir       ,      X,     277,   1,      Z          )," &
+    " 277 (BC_2 , *                               , control     ,      1                                )," &
+    " 276 (BC_7 , ddr0_csn0_0                     , bidir       ,      X,     275,   1,      Z          )," &
+    " 275 (BC_2 , *                               , control     ,      1                                )," &
+    " 274 (BC_7 , ddr0_csn1_0                     , bidir       ,      X,     273,   1,      Z          )," &
+    " 273 (BC_2 , *                               , control     ,      1                                )," &
+    " 272 (BC_7 , ddr0_csn0_1                     , bidir       ,      X,     271,   1,      Z          )," &
+    " 271 (BC_2 , *                               , control     ,      1                                )," &
+    " 270 (BC_7 , ddr0_csn1_1                     , bidir       ,      X,     269,   1,      Z          )," &
+    " 269 (BC_2 , *                               , control     ,      1                                )," &
+    " 268 (BC_7 , ddr0_dq0                        , bidir       ,      X,     267,   1,      Z          )," &
+    " 267 (BC_2 , *                               , control     ,      1                                )," &
+    " 266 (BC_7 , ddr0_dq1                        , bidir       ,      X,     265,   1,      Z          )," &
+    " 265 (BC_2 , *                               , control     ,      1                                )," &
+    " 264 (BC_7 , ddr0_dq2                        , bidir       ,      X,     263,   1,      Z          )," &
+    " 263 (BC_2 , *                               , control     ,      1                                )," &
+    " 262 (BC_7 , ddr0_dq3                        , bidir       ,      X,     261,   1,      Z          )," &
+    " 261 (BC_2 , *                               , control     ,      1                                )," &
+    " 260 (BC_7 , ddr0_dq4                        , bidir       ,      X,     259,   1,      Z          )," &
+    " 259 (BC_2 , *                               , control     ,      1                                )," &
+    " 258 (BC_7 , ddr0_dq5                        , bidir       ,      X,     257,   1,      Z          )," &
+    " 257 (BC_2 , *                               , control     ,      1                                )," &
+    " 256 (BC_7 , ddr0_dq6                        , bidir       ,      X,     255,   1,      Z          )," &
+    " 255 (BC_2 , *                               , control     ,      1                                )," &
+    " 254 (BC_7 , ddr0_dq7                        , bidir       ,      X,     253,   1,      Z          )," &
+    " 253 (BC_2 , *                               , control     ,      1                                )," &
+    " 252 (BC_7 , ddr0_dq8                        , bidir       ,      X,     251,   1,      Z          )," &
+    " 251 (BC_2 , *                               , control     ,      1                                )," &
+    " 250 (BC_7 , ddr0_dq9                        , bidir       ,      X,     249,   1,      Z          )," &
+    " 249 (BC_2 , *                               , control     ,      1                                )," &
+    " 248 (BC_7 , ddr0_dq10                       , bidir       ,      X,     247,   1,      Z          )," &
+    " 247 (BC_2 , *                               , control     ,      1                                )," &
+    " 246 (BC_7 , ddr0_dq11                       , bidir       ,      X,     245,   1,      Z          )," &
+    " 245 (BC_2 , *                               , control     ,      1                                )," &
+    " 244 (BC_7 , ddr0_dq12                       , bidir       ,      X,     243,   1,      Z          )," &
+    " 243 (BC_2 , *                               , control     ,      1                                )," &
+    " 242 (BC_7 , ddr0_dq13                       , bidir       ,      X,     241,   1,      Z          )," &
+    " 241 (BC_2 , *                               , control     ,      1                                )," &
+    " 240 (BC_7 , ddr0_dq14                       , bidir       ,      X,     239,   1,      Z          )," &
+    " 239 (BC_2 , *                               , control     ,      1                                )," &
+    " 238 (BC_7 , ddr0_dq15                       , bidir       ,      X,     237,   1,      Z          )," &
+    " 237 (BC_2 , *                               , control     ,      1                                )," &
+    " 236 (BC_7 , ddr0_dq16                       , bidir       ,      X,     235,   1,      Z          )," &
+    " 235 (BC_2 , *                               , control     ,      1                                )," &
+    " 234 (BC_7 , ddr0_dq17                       , bidir       ,      X,     233,   1,      Z          )," &
+    " 233 (BC_2 , *                               , control     ,      1                                )," &
+    " 232 (BC_7 , ddr0_dq18                       , bidir       ,      X,     231,   1,      Z          )," &
+    " 231 (BC_2 , *                               , control     ,      1                                )," &
+    " 230 (BC_7 , ddr0_dq19                       , bidir       ,      X,     229,   1,      Z          )," &
+    " 229 (BC_2 , *                               , control     ,      1                                )," &
+    " 228 (BC_7 , ddr0_dq20                       , bidir       ,      X,     227,   1,      Z          )," &
+    " 227 (BC_2 , *                               , control     ,      1                                )," &
+    " 226 (BC_7 , ddr0_dq21                       , bidir       ,      X,     225,   1,      Z          )," &
+    " 225 (BC_2 , *                               , control     ,      1                                )," &
+    " 224 (BC_7 , ddr0_dq22                       , bidir       ,      X,     223,   1,      Z          )," &
+    " 223 (BC_2 , *                               , control     ,      1                                )," &
+    " 222 (BC_7 , ddr0_dq23                       , bidir       ,      X,     221,   1,      Z          )," &
+    " 221 (BC_2 , *                               , control     ,      1                                )," &
+    " 220 (BC_7 , ddr0_dq24                       , bidir       ,      X,     219,   1,      Z          )," &
+    " 219 (BC_2 , *                               , control     ,      1                                )," &
+    " 218 (BC_7 , ddr0_dq25                       , bidir       ,      X,     217,   1,      Z          )," &
+    " 217 (BC_2 , *                               , control     ,      1                                )," &
+    " 216 (BC_7 , ddr0_dq26                       , bidir       ,      X,     215,   1,      Z          )," &
+    " 215 (BC_2 , *                               , control     ,      1                                )," &
+    " 214 (BC_7 , ddr0_dq27                       , bidir       ,      X,     213,   1,      Z          )," &
+    " 213 (BC_2 , *                               , control     ,      1                                )," &
+    " 212 (BC_7 , ddr0_dq28                       , bidir       ,      X,     211,   1,      Z          )," &
+    " 211 (BC_2 , *                               , control     ,      1                                )," &
+    " 210 (BC_7 , ddr0_dq29                       , bidir       ,      X,     209,   1,      Z          )," &
+    " 209 (BC_2 , *                               , control     ,      1                                )," &
+    " 208 (BC_7 , ddr0_dq30                       , bidir       ,      X,     207,   1,      Z          )," &
+    " 207 (BC_2 , *                               , control     ,      1                                )," &
+    " 206 (BC_7 , ddr0_dq31                       , bidir       ,      X,     205,   1,      Z          )," &
+    " 205 (BC_2 , *                               , control     ,      1                                )," &
+    " 204 (BC_7 , ddr0_dm0                        , bidir       ,      X,     203,   1,      Z          )," &
+    " 203 (BC_2 , *                               , control     ,      1                                )," &
+    " 202 (BC_7 , ddr0_dm1                        , bidir       ,      X,     201,   1,      Z          )," &
+    " 201 (BC_2 , *                               , control     ,      1                                )," &
+    " 200 (BC_7 , ddr0_dm2                        , bidir       ,      X,     199,   1,      Z          )," &
+    " 199 (BC_2 , *                               , control     ,      1                                )," &
+    " 198 (BC_7 , ddr0_dm3                        , bidir       ,      X,     197,   1,      Z          )," &
+    " 197 (BC_2 , *                               , control     ,      1                                )," &
+    " 196 (BC_7 , ddr0_dqs0p                      , bidir       ,      X,     195,   1,      Z          )," &
+    " 195 (BC_2 , *                               , control     ,      1                                )," &
+    " 194 (BC_7 , ddr0_dqs1p                      , bidir       ,      X,     193,   1,      Z          )," &
+    " 193 (BC_2 , *                               , control     ,      1                                )," &
+    " 192 (BC_7 , ddr0_dqs2p                      , bidir       ,      X,     191,   1,      Z          )," &
+    " 191 (BC_2 , *                               , control     ,      1                                )," &
+    " 190 (BC_7 , ddr0_dqs3p                      , bidir       ,      X,     189,   1,      Z          )," &
+    " 189 (BC_2 , *                               , control     ,      1                                )," &
+    " 188 (BC_7 , ddr0_ckp                        , bidir       ,      X,     187,   1,      Z          )," &
+    " 187 (BC_2 , *                               , control     ,      1                                )," &
+    " 186 (BC_7 , ddr0_resetn                     , bidir       ,      X,     185,   1,      Z          )," &
+    " 185 (BC_2 , *                               , control     ,      1                                )," &
+    " 184 (BC_7 , ddr1_ca0                        , bidir       ,      X,     183,   1,      Z          )," &
+    " 183 (BC_2 , *                               , control     ,      1                                )," &
+    " 182 (BC_7 , ddr1_ca1                        , bidir       ,      X,     181,   1,      Z          )," &
+    " 181 (BC_2 , *                               , control     ,      1                                )," &
+    " 180 (BC_7 , ddr1_ca2                        , bidir       ,      X,     179,   1,      Z          )," &
+    " 179 (BC_2 , *                               , control     ,      1                                )," &
+    " 178 (BC_7 , ddr1_ca3                        , bidir       ,      X,     177,   1,      Z          )," &
+    " 177 (BC_2 , *                               , control     ,      1                                )," &
+    " 176 (BC_7 , ddr1_ca4                        , bidir       ,      X,     175,   1,      Z          )," &
+    " 175 (BC_2 , *                               , control     ,      1                                )," &
+    " 174 (BC_7 , ddr1_ca5                        , bidir       ,      X,     173,   1,      Z          )," &
+    " 173 (BC_2 , *                               , control     ,      1                                )," &
+    " 172 (BC_7 , ddr1_cke0                       , bidir       ,      X,     171,   1,      Z          )," &
+    " 171 (BC_2 , *                               , control     ,      1                                )," &
+    " 170 (BC_7 , ddr1_cke1                       , bidir       ,      X,     169,   1,      Z          )," &
+    " 169 (BC_2 , *                               , control     ,      1                                )," &
+    " 168 (BC_7 , ddr1_csn0_0                     , bidir       ,      X,     167,   1,      Z          )," &
+    " 167 (BC_2 , *                               , control     ,      1                                )," &
+    " 166 (BC_7 , ddr1_csn1_0                     , bidir       ,      X,     165,   1,      Z          )," &
+    " 165 (BC_2 , *                               , control     ,      1                                )," &
+    " 164 (BC_7 , ddr1_csn0_1                     , bidir       ,      X,     163,   1,      Z          )," &
+    " 163 (BC_2 , *                               , control     ,      1                                )," &
+    " 162 (BC_7 , ddr1_csn1_1                     , bidir       ,      X,     161,   1,      Z          )," &
+    " 161 (BC_2 , *                               , control     ,      1                                )," &
+    " 160 (BC_7 , ddr1_dq0                        , bidir       ,      X,     159,   1,      Z          )," &
+    " 159 (BC_2 , *                               , control     ,      1                                )," &
+    " 158 (BC_7 , ddr1_dq1                        , bidir       ,      X,     157,   1,      Z          )," &
+    " 157 (BC_2 , *                               , control     ,      1                                )," &
+    " 156 (BC_7 , ddr1_dq2                        , bidir       ,      X,     155,   1,      Z          )," &
+    " 155 (BC_2 , *                               , control     ,      1                                )," &
+    " 154 (BC_7 , ddr1_dq3                        , bidir       ,      X,     153,   1,      Z          )," &
+    " 153 (BC_2 , *                               , control     ,      1                                )," &
+    " 152 (BC_7 , ddr1_dq4                        , bidir       ,      X,     151,   1,      Z          )," &
+    " 151 (BC_2 , *                               , control     ,      1                                )," &
+    " 150 (BC_7 , ddr1_dq5                        , bidir       ,      X,     149,   1,      Z          )," &
+    " 149 (BC_2 , *                               , control     ,      1                                )," &
+    " 148 (BC_7 , ddr1_dq6                        , bidir       ,      X,     147,   1,      Z          )," &
+    " 147 (BC_2 , *                               , control     ,      1                                )," &
+    " 146 (BC_7 , ddr1_dq7                        , bidir       ,      X,     145,   1,      Z          )," &
+    " 145 (BC_2 , *                               , control     ,      1                                )," &
+    " 144 (BC_7 , ddr1_dq8                        , bidir       ,      X,     143,   1,      Z          )," &
+    " 143 (BC_2 , *                               , control     ,      1                                )," &
+    " 142 (BC_7 , ddr1_dq9                        , bidir       ,      X,     141,   1,      Z          )," &
+    " 141 (BC_2 , *                               , control     ,      1                                )," &
+    " 140 (BC_7 , ddr1_dq10                       , bidir       ,      X,     139,   1,      Z          )," &
+    " 139 (BC_2 , *                               , control     ,      1                                )," &
+    " 138 (BC_7 , ddr1_dq11                       , bidir       ,      X,     137,   1,      Z          )," &
+    " 137 (BC_2 , *                               , control     ,      1                                )," &
+    " 136 (BC_7 , ddr1_dq12                       , bidir       ,      X,     135,   1,      Z          )," &
+    " 135 (BC_2 , *                               , control     ,      1                                )," &
+    " 134 (BC_7 , ddr1_dq13                       , bidir       ,      X,     133,   1,      Z          )," &
+    " 133 (BC_2 , *                               , control     ,      1                                )," &
+    " 132 (BC_7 , ddr1_dq14                       , bidir       ,      X,     131,   1,      Z          )," &
+    " 131 (BC_2 , *                               , control     ,      1                                )," &
+    " 130 (BC_7 , ddr1_dq15                       , bidir       ,      X,     129,   1,      Z          )," &
+    " 129 (BC_2 , *                               , control     ,      1                                )," &
+    " 128 (BC_7 , ddr1_dq16                       , bidir       ,      X,     127,   1,      Z          )," &
+    " 127 (BC_2 , *                               , control     ,      1                                )," &
+    " 126 (BC_7 , ddr1_dq17                       , bidir       ,      X,     125,   1,      Z          )," &
+    " 125 (BC_2 , *                               , control     ,      1                                )," &
+    " 124 (BC_7 , ddr1_dq18                       , bidir       ,      X,     123,   1,      Z          )," &
+    " 123 (BC_2 , *                               , control     ,      1                                )," &
+    " 122 (BC_7 , ddr1_dq19                       , bidir       ,      X,     121,   1,      Z          )," &
+    " 121 (BC_2 , *                               , control     ,      1                                )," &
+    " 120 (BC_7 , ddr1_dq20                       , bidir       ,      X,     119,   1,      Z          )," &
+    " 119 (BC_2 , *                               , control     ,      1                                )," &
+    " 118 (BC_7 , ddr1_dq21                       , bidir       ,      X,     117,   1,      Z          )," &
+    " 117 (BC_2 , *                               , control     ,      1                                )," &
+    " 116 (BC_7 , ddr1_dq22                       , bidir       ,      X,     115,   1,      Z          )," &
+    " 115 (BC_2 , *                               , control     ,      1                                )," &
+    " 114 (BC_7 , ddr1_dq23                       , bidir       ,      X,     113,   1,      Z          )," &
+    " 113 (BC_2 , *                               , control     ,      1                                )," &
+    " 112 (BC_7 , ddr1_dq24                       , bidir       ,      X,     111,   1,      Z          )," &
+    " 111 (BC_2 , *                               , control     ,      1                                )," &
+    " 110 (BC_7 , ddr1_dq25                       , bidir       ,      X,     109,   1,      Z          )," &
+    " 109 (BC_2 , *                               , control     ,      1                                )," &
+    " 108 (BC_7 , ddr1_dq26                       , bidir       ,      X,     107,   1,      Z          )," &
+    " 107 (BC_2 , *                               , control     ,      1                                )," &
+    " 106 (BC_7 , ddr1_dq27                       , bidir       ,      X,     105,   1,      Z          )," &
+    " 105 (BC_2 , *                               , control     ,      1                                )," &
+    " 104 (BC_7 , ddr1_dq28                       , bidir       ,      X,     103,   1,      Z          )," &
+    " 103 (BC_2 , *                               , control     ,      1                                )," &
+    " 102 (BC_7 , ddr1_dq29                       , bidir       ,      X,     101,   1,      Z          )," &
+    " 101 (BC_2 , *                               , control     ,      1                                )," &
+    " 100 (BC_7 , ddr1_dq30                       , bidir       ,      X,      99,   1,      Z          )," &
+    "  99 (BC_2 , *                               , control     ,      1                                )," &
+    "  98 (BC_7 , ddr1_dq31                       , bidir       ,      X,      97,   1,      Z          )," &
+    "  97 (BC_2 , *                               , control     ,      1                                )," &
+    "  96 (BC_7 , ddr1_dm0                        , bidir       ,      X,      95,   1,      Z          )," &
+    "  95 (BC_2 , *                               , control     ,      1                                )," &
+    "  94 (BC_7 , ddr1_dm1                        , bidir       ,      X,      93,   1,      Z          )," &
+    "  93 (BC_2 , *                               , control     ,      1                                )," &
+    "  92 (BC_7 , ddr1_dm2                        , bidir       ,      X,      91,   1,      Z          )," &
+    "  91 (BC_2 , *                               , control     ,      1                                )," &
+    "  90 (BC_7 , ddr1_dm3                        , bidir       ,      X,      89,   1,      Z          )," &
+    "  89 (BC_2 , *                               , control     ,      1                                )," &
+    "  88 (BC_7 , ddr1_dqs0p                      , bidir       ,      X,      87,   1,      Z          )," &
+    "  87 (BC_2 , *                               , control     ,      1                                )," &
+    "  86 (BC_7 , ddr1_dqs1p                      , bidir       ,      X,      85,   1,      Z          )," &
+    "  85 (BC_2 , *                               , control     ,      1                                )," &
+    "  84 (BC_7 , ddr1_dqs2p                      , bidir       ,      X,      83,   1,      Z          )," &
+    "  83 (BC_2 , *                               , control     ,      1                                )," &
+    "  82 (BC_7 , ddr1_dqs3p                      , bidir       ,      X,      81,   1,      Z          )," &
+    "  81 (BC_2 , *                               , control     ,      1                                )," &
+    "  80 (BC_7 , ddr1_ckp                        , bidir       ,      X,      79,   1,      Z          )," &
+    "  79 (BC_2 , *                               , control     ,      1                                )," &
+    "  78 (BC_7 , ddr1_resetn                     , bidir       ,      X,      77,   1,      Z          )," &
+    "  77 (BC_2 , *                               , control     ,      1                                )," &
+    "  76 (BC_1 , csi0_rxp3                       , input       ,      X                                )," &
+    "  75 (BC_1 , csi0_rxn3                       , input       ,      X                                )," &
+    "  74 (BC_1 , csi0_rxp2                       , input       ,      X                                )," &
+    "  73 (BC_1 , csi0_rxn2                       , input       ,      X                                )," &
+    "  72 (BC_1 , csi0_rxp1                       , input       ,      X                                )," &
+    "  71 (BC_1 , csi0_rxn1                       , input       ,      X                                )," &
+    "  70 (BC_1 , csi0_rxp0                       , input       ,      X                                )," &
+    "  69 (BC_1 , csi0_rxn0                       , input       ,      X                                )," &
+    "  68 (BC_1 , csi0_rxclkp                     , input       ,      X                                )," &
+    "  67 (BC_1 , csi0_rxclkn                     , input       ,      X                                )," &
+    "  66 (BC_1 , dsi0_txp3                       , output2     ,      X                                )," &
+    "  65 (BC_1 , dsi0_txp2                       , output2     ,      X                                )," &
+    "  64 (BC_1 , dsi0_txp1                       , output2     ,      X                                )," &
+    "  63 (BC_1 , dsi0_txp0                       , output2     ,      X                                )," &
+    "  62 (BC_1 , dsi0_txclkp                     , output2     ,      X                                )," &
+    "  61 (BC_1 , mmc0_clk                        , output2     ,      X                                )," &
+    "  60 (BC_1 , *                               , internal    ,      0                                )," &
+    "  59 (BC_7 , mmc0_cmd                        , bidir       ,      X,      58,   1,      Z          )," &
+    "  58 (BC_2 , *                               , control     ,      1                                )," &
+    "  57 (BC_1 , mmc0_ds                         , input       ,      X                                )," &
+    "  56 (BC_7 , mmc0_dat0                       , bidir       ,      X,      55,   1,      Z          )," &
+    "  55 (BC_2 , *                               , control     ,      1                                )," &
+    "  54 (BC_7 , mmc0_dat1                       , bidir       ,      X,      53,   1,      Z          )," &
+    "  53 (BC_2 , *                               , control     ,      1                                )," &
+    "  52 (BC_7 , mmc0_dat2                       , bidir       ,      X,      51,   1,      Z          )," &
+    "  51 (BC_2 , *                               , control     ,      1                                )," &
+    "  50 (BC_7 , mmc0_dat3                       , bidir       ,      X,      49,   1,      Z          )," &
+    "  49 (BC_2 , *                               , control     ,      1                                )," &
+    "  48 (BC_7 , mmc0_dat4                       , bidir       ,      X,      47,   1,      Z          )," &
+    "  47 (BC_2 , *                               , control     ,      1                                )," &
+    "  46 (BC_7 , mmc0_dat5                       , bidir       ,      X,      45,   1,      Z          )," &
+    "  45 (BC_2 , *                               , control     ,      1                                )," &
+    "  44 (BC_7 , mmc0_dat6                       , bidir       ,      X,      43,   1,      Z          )," &
+    "  43 (BC_2 , *                               , control     ,      1                                )," &
+    "  42 (BC_7 , mmc0_dat7                       , bidir       ,      X,      41,   1,      Z          )," &
+    "  41 (BC_2 , *                               , control     ,      1                                )," &
+    "  40 (BC_4 , *                               , internal    ,      X                                )," &
+    "  39 (BC_4 , serdes0_rx0_p                   , observe_only,      X                                )," &
+    "  38 (BC_4 , serdes0_rx0_n                   , observe_only,      X                                )," &
+    "  37 (BC_2 , serdes0_tx0_p                   , output2     ,      X                                )," &
+    "  36 (BC_1 , *                               , internal    ,      X                                )," &
+    "  35 (BC_4 , *                               , internal    ,      X                                )," &
+    "  34 (BC_4 , serdes0_rx1_p                   , observe_only,      X                                )," &
+    "  33 (BC_4 , serdes0_rx1_n                   , observe_only,      X                                )," &
+    "  32 (BC_2 , serdes0_tx1_p                   , output2     ,      X                                )," &
+    "  31 (BC_1 , *                               , internal    ,      X                                )," &
+    "  30 (BC_4 , *                               , internal    ,      X                                )," &
+    "  29 (BC_4 , serdes0_rx2_p                   , observe_only,      X                                )," &
+    "  28 (BC_4 , serdes0_rx2_n                   , observe_only,      X                                )," &
+    "  27 (BC_2 , serdes0_tx2_p                   , output2     ,      X                                )," &
+    "  26 (BC_1 , *                               , internal    ,      X                                )," &
+    "  25 (BC_4 , *                               , internal    ,      X                                )," &
+    "  24 (BC_4 , serdes0_rx3_p                   , observe_only,      X                                )," &
+    "  23 (BC_4 , serdes0_rx3_n                   , observe_only,      X                                )," &
+    "  22 (BC_2 , serdes0_tx3_p                   , output2     ,      X                                )," &
+    "  21 (BC_1 , *                               , internal    ,      X                                )," &
+    "  20 (BC_1 , *                               , internal    ,      0                                )," &
+    "  19 (BC_1 , *                               , internal    ,      0                                )," &
+    "  18 (BC_1 , *                               , internal    ,      0                                )," &
+    "  17 (BC_4 , dp0_auxp                        , observe_only,      X                                )," &
+    "  16 (BC_4 , dp0_auxn                        , observe_only,      X                                )," &
+    "  15 (BC_1 , *                               , internal    ,      0                                )," &
+    "  14 (BC_1 , dsi1_txp3                       , output2     ,      X                                )," &
+    "  13 (BC_1 , dsi1_txp2                       , output2     ,      X                                )," &
+    "  12 (BC_1 , dsi1_txp1                       , output2     ,      X                                )," &
+    "  11 (BC_1 , dsi1_txp0                       , output2     ,      X                                )," &
+    "  10 (BC_1 , dsi1_txclkp                     , output2     ,      X                                )," &
+    "   9 (BC_1 , csi1_rxp3                       , input       ,      X                                )," &
+    "   8 (BC_1 , csi1_rxn3                       , input       ,      X                                )," &
+    "   7 (BC_1 , csi1_rxp2                       , input       ,      X                                )," &
+    "   6 (BC_1 , csi1_rxn2                       , input       ,      X                                )," &
+    "   5 (BC_1 , csi1_rxp1                       , input       ,      X                                )," &
+    "   4 (BC_1 , csi1_rxn1                       , input       ,      X                                )," &
+    "   3 (BC_1 , csi1_rxp0                       , input       ,      X                                )," &
+    "   2 (BC_1 , csi1_rxn0                       , input       ,      X                                )," &
+    "   1 (BC_1 , csi1_rxclkp                     , input       ,      X                                )," &
+    "   0 (BC_1 , csi1_rxclkn                     , input       ,      X                                )";
+
+end j721s2;
