@@ -1,6 +1,6 @@
-# STM64 Computer
+# AM68 Computer
 
-This project is a STM64 computer were Linux can be deployed onto.
+This project is a AM68 computer were Linux can be deployed onto.
 The circuit board is made in Altium CircuitMaker. 
 
 This is a continuation of [STM32-Computer](https://github.com/DanielMartensson/STM32-Computer). 
@@ -8,28 +8,27 @@ Here a better processor and better RAM memory will be used.
 
 # Operating system to the board
 
-Here is `STM64-OS` system for the board.
+Here is `AM68-OS` system for the board.
 
-https://github.com/danielmartensson/STM64-OS (Project not created yet at Github)
+https://github.com/danielmartensson/AM68-OS (Project not created yet at Github)
 
 # URL to the board
 
 Schematics and 3D model, made in Altium CircuitMaker.
 
-https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/STM64-Computer (Project not created yet at CircuitMaker.com)
+https://workspace.circuitmaker.com/Projects/Details/DanielMrtensson/AM6-Computer (Project not created yet at CircuitMaker.com)
 
 # Status
 
-* 2025-06-02: Initializing the project
+* 2025-06-21: Initializing the project
 
 # Features
 
-* Processor: STM32MP25XXAK
-* CubeIDE: STM32MP257FAK
-* Stack layers: 4
-* ARM Cortex A35 64-bit Dual Core at 1.5 GHz
-* 1 x 32-bit 4 GB LPDDR4 RAM memory at 1.2 GHz
-* 1 x HDMI
+* Processor: AM69A98ATGGHAALYR
+* Stack layers: <UPDATE>
+* ARM Cortex A72 64-bit Octal Core at 2.0 GHz
+* 4 x 32-bit 4 GB LPDDR4 RAM memory at 2.1 GHz
+* 1 x Display Port
 * 2 x CAN channels
 * 4 x USB A
 <<<<<<< HEAD
