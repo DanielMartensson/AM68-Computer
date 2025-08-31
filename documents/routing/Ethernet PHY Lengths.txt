@@ -1,0 +1,21 @@
+RGMII_TXC_R: 19.423 mm + 7.08 mm = 26.503 mm <-- Klockan för TX. Denna kommer ha 2 Ns fördröjning
+RGMII_TX_CTL_R: 15.211 mm + 7.076 mm = 22.287 mm
+RGMII_TD0_R: 16.707 mm + 7.487 mm = 24.194 mm
+RGMII_TD1_R: 19.98 mm + 7.577 mm = 27.557 mm
+RGMII_TD2_R: 17.557 mm + 7.77 mm = 25.327 mm
+RGMII_TD3_R: 17.548 mm + 8.74 mm = 26.288 mm
+
+RGMII_RD3 = 22.697 mm
+RGMII_RD2 = 21.884 mm
+RGMII_RD1 = 22.009 mm
+RGMII_RD0 = 21.807 mm
+RGMII_RX_CTL = 23.942 mm
+RGMII_RXC = 22.440 mm <-- Klockan för RX. Denna kommer ha 2 Ns fördröjning
+
+RGMII_MDIO = 29.631 mm
+RGMII_MDC = 30.548 mm
+
+
+
+
+

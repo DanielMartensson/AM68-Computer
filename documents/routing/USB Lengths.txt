@@ -1,0 +1,9 @@
+Bara mellan SoC och PHY:
+
+USBC_SS_TX2_N = 25.069 + 5.466 + 0.88 = 31.415 mm
+USBC_SS_TX2_P = 24.718 + 4.745 + 0.88 = 30.343 mm
+C_USBA_SSRX_UP_N = 2.038 + 29.230 = 31.268 mm
+C_USBA_SSRX_UP_P = 2.038 + 29.579 = 31.617 mm
+USB0_HUB_D_P = 31.436 mm
+USB0_HUB_D_N = 31.117 mm
+

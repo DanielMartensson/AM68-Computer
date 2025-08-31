@@ -1,11 +1,12 @@
-C_DP0_TX3_P @ Signal1/GND = 25.071 mm (Denna har 0.55mm core)
-C_DP0_TX3_P @ Signal1/GND = 25.057 mm (Denna har 0.55mm core)
-C_DP0_TX2_P @ Signal2/PWR = 25.36 mm
-C_DP0_TX2_N @ Signal2/PWR = 25.357 mm
-C_DP0_TX1_N @ Signal2/PWR = 25.51 mm
-C_DP0_TX1_P @ Signal2/PWR = 25.514 mm
-C_DP0_TX0_P @ Signal2/PWR = 25.066 mm
-C_DP0_TX0_N @ Signal2/PWR = 25.051 mm
-C_DP0_AUX_N @ Signal2/PWR = 25.416 mm 
-C_DP0_AUX_P @ Signal2/PWR = 24.455 mm (Ska jag öka?)
+Bara mellan SoC och AC kondensatorer:
 
+C_DP0_TX3_N = 26.573 mm
+C_DP0_TX3_P = 26.573 mm
+C_DP0_TX2_N = 25.008 mm
+C_DP0_TX2_P = 25.020 mm
+C_DP0_TX1_N = 24.007 mm
+C_DP0_TX1_P = 24.018 mm
+C_DP0_TX0_N = 25.698 mm
+C_DP0_TX0_P = 25.697 mm
+C_DP0_AUX_N = 22.836 mm
+C_DP0_AUX_P = 21.933 mm
